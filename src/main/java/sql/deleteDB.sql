@@ -1,0 +1,19 @@
+DROP SCHEMA public CASCADE;
+create schema public;
+
+-- CREATE ROLE ws WITH
+-- 	LOGIN
+-- 	SUPERUSER
+-- 	CREATEDB
+-- 	CREATEROLE
+-- 	INHERIT
+-- 	NOREPLICATION
+-- 	CONNECTION LIMIT -1
+-- 	PASSWORD 'ws';
+
+-- CREATE DATABASE token
+--     WITH
+--     OWNER = ws
+--     ENCODING = 'UTF8'
+--     CONNECTION LIMIT = -1
+--     IS_TEMPLATE = False;

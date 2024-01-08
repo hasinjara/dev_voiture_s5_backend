@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TokenApplication<Token>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.demo.token.TokenApplication",
+            "projectName": "Token",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
