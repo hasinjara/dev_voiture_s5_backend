@@ -49,8 +49,40 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST,"/voiture_app/signup","/voiture_app/signin").permitAll()
+                        //-register
+                        .requestMatchers(HttpMethod.POST,"/register/signup","/register/signin").permitAll()
                         .requestMatchers(HttpMethod.GET, "/app/test/**").permitAll()
+                        //-annonce
+                        .requestMatchers(HttpMethod.GET, "/annonce/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/annonce/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/annonce/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/annonce/**").permitAll()
+                        //-boite
+                        .requestMatchers(HttpMethod.GET, "/boite/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/boite/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/boite/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/boite/**").permitAll()
+                        //-categorie
+                        .requestMatchers(HttpMethod.GET, "/categorie/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/categorie/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/categorie/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/categorie/**").permitAll()
+                        //-energie
+                        .requestMatchers(HttpMethod.GET, "/energie/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/energie/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/energie/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/energie/**").permitAll()
+                        //-marque
+                        .requestMatchers(HttpMethod.GET, "/marque/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/marque/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/marque/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/marque/**").permitAll()
+                        //-voiture
+                        .requestMatchers(HttpMethod.GET, "/voiture/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/voiture/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/voiture/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/voiture/**").permitAll()
+                        //--
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

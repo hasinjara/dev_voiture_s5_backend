@@ -3,7 +3,6 @@ package com.demo.voiture.models;
 public class Retour {
 
     String erreur;
-
     String message;
     Object data;
 
@@ -26,22 +25,23 @@ public class Retour {
 
     }
 
-    public Retour(Object data, String message)  {
-        try {
-            this.data = data;
-            this.erreur = "aucun";
-            this.message = message;
-        }catch (Exception e) {
-            this.data = null;
-            this.erreur = e.getMessage();
-            this.message = "Echoue";
-        }
-
-    }
+//    public Retour(Object data, String message)  {
+//        try {
+//            this.data = data;
+//            this.erreur = "aucun";
+//            this.message = message;
+//        }catch (Exception e) {
+//            this.data = null;
+//            this.erreur = e.getMessage();
+//            this.message = "Echoue";
+//        }
+//
+//    }
 
     public Retour(String erreur, Object data) {
         this.erreur = erreur;
         this.data = data;
+        this.message = "Failed";
     }
 
     public Retour() {

@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "v_voiture_categorie", schema = "public", catalog = "voiture")
-public class VVoitureCategorie {
+public class DetailsVoitureCategorie {
 
     @Id
     @Basic
@@ -80,7 +80,7 @@ public class VVoitureCategorie {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VVoitureCategorie that = (VVoitureCategorie) o;
+        DetailsVoitureCategorie that = (DetailsVoitureCategorie) o;
         return Objects.equals(idVoiture, that.idVoiture) && Objects.equals(nomModele, that.nomModele) && Objects.equals(anneSortie, that.anneSortie) && Objects.equals(idMarque, that.idMarque) && Objects.equals(idCategorie, that.idCategorie) && Objects.equals(categorie, that.categorie);
     }
 

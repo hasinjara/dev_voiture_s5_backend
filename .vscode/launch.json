@@ -9,6 +9,16 @@
             "projectName": "Token",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-VoitureApplication<Voiture>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.demo.voiture.VoitureApplication",
+            "projectName": "Voiture",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

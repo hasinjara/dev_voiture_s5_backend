@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "v_details_annonce", schema = "public", catalog = "voiture")
-public class VDetailsAnnonce {
+public class DetailsAnnonce {
     @Id
     @Basic
     @Column(name = "id_annonce", nullable = true, length = -1)
@@ -366,7 +366,7 @@ public class VDetailsAnnonce {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VDetailsAnnonce that = (VDetailsAnnonce) o;
+        DetailsAnnonce that = (DetailsAnnonce) o;
         return Objects.equals(idAnnonce, that.idAnnonce) && Objects.equals(idUsers, that.idUsers) && Objects.equals(idVoiture, that.idVoiture) && Objects.equals(idFicheTechnique, that.idFicheTechnique) && Objects.equals(idCategorie, that.idCategorie) && Objects.equals(kilometrage, that.kilometrage) && Objects.equals(etatVoiture, that.etatVoiture) && Objects.equals(description, that.description) && Objects.equals(prixVente, that.prixVente) && Objects.equals(dateAnnonce, that.dateAnnonce) && Objects.equals(etat, that.etat) && Objects.equals(nomModele, that.nomModele) && Objects.equals(anneSortie, that.anneSortie) && Objects.equals(idMarque, that.idMarque) && Objects.equals(marque, that.marque) && Objects.equals(categorie, that.categorie) && Objects.equals(idEnergie, that.idEnergie) && Objects.equals(energie, that.energie) && Objects.equals(idBoite, that.idBoite) && Objects.equals(boite, that.boite) && Objects.equals(moteur, that.moteur) && Objects.equals(litreMoteur, that.litreMoteur) && Objects.equals(consommation, that.consommation) && Objects.equals(puissance, that.puissance) && Objects.equals(nbVitesse, that.nbVitesse) && Objects.equals(nbPlace, that.nbPlace) && Objects.equals(nbPorte, that.nbPorte) && Objects.equals(longueur, that.longueur) && Objects.equals(poids, that.poids) && Objects.equals(nom, that.nom) && Objects.equals(prenom, that.prenom) && Objects.equals(mail, that.mail);
     }
 

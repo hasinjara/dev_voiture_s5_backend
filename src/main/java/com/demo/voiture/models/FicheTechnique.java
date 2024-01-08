@@ -92,7 +92,10 @@ public class FicheTechnique {
         return litreMoteur;
     }
 
-    public void setLitreMoteur(Double litreMoteur) {
+    public void setLitreMoteur(Double litreMoteur) throws Exception {
+        if(litreMoteur <= 1 || litreMoteur > 10) {
+            throw new Exception("Seulement entre 1l a 10l");
+        }
         this.litreMoteur = litreMoteur;
     }
 
@@ -100,7 +103,10 @@ public class FicheTechnique {
         return consommation;
     }
 
-    public void setConsommation(Double consommation) {
+    public void setConsommation(Double consommation) throws Exception {
+        if(consommation <= 0 || consommation > 100) {
+            throw new Exception("Consommation entre 0.1 a 100");
+        }
         this.consommation = consommation;
     }
 
@@ -108,7 +114,10 @@ public class FicheTechnique {
         return puissance;
     }
 
-    public void setPuissance(Double puissance) {
+    public void setPuissance(Double puissance) throws Exception {
+        if(puissance <= 0 || puissance > 100) {
+            throw new Exception("Puissance entre 1 a 100 CV");
+        }
         this.puissance = puissance;
     }
 
@@ -116,7 +125,10 @@ public class FicheTechnique {
         return nbVitesse;
     }
 
-    public void setNbVitesse(Double nbVitesse) {
+    public void setNbVitesse(Double nbVitesse) throws Exception {
+        if(nbVitesse<=0 || nbVitesse > 25) {
+            throw new Exception("On se limite de 1 a 25 vitesses");
+        }
         this.nbVitesse = nbVitesse;
     }
 
@@ -124,15 +136,21 @@ public class FicheTechnique {
         return nbPlace;
     }
 
-    public void setNbPlace(Double nbPlace) {
+    public void setNbPlace(Double nbPlace) throws Exception {
+        if(nbPlace <= 0 || nbPlace > 50) {
+            throw new Exception("Nombre de place compris entre 1 a 50");
+        }
         this.nbPlace = nbPlace;
     }
 
-    public Double getNbPorte() {
+    public Double getNbPorte()  {
         return nbPorte;
     }
 
-    public void setNbPorte(Double nbPorte) {
+    public void setNbPorte(Double nbPorte) throws Exception {
+        if(nbPorte <= 0 || nbPorte > 10) {
+            throw new Exception("On connait que 1 a 10 portes aux maximum");
+        }
         this.nbPorte = nbPorte;
     }
 
@@ -140,7 +158,10 @@ public class FicheTechnique {
         return longueur;
     }
 
-    public void setLongueur(Double longueur) {
+    public void setLongueur(Double longueur) throws Exception {
+        if(longueur <=0 || longueur > 25) {
+            throw new Exception("On connait que a partir de 0 a 25 m de longueur");
+        }
         this.longueur = longueur;
     }
 
@@ -148,7 +169,10 @@ public class FicheTechnique {
         return poids;
     }
 
-    public void setPoids(Double poids) {
+    public void setPoids(Double poids) throws Exception {
+        if(poids <= 200 || poids > 25*1000 ) {
+            throw new Exception("Le poids doit etre entre 200 a 25 000 kg");
+        }
         this.poids = poids;
     }
 

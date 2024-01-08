@@ -1,15 +1,13 @@
 package com.demo.voiture.models;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "param_commission", schema = "public", catalog = "voiture")
 public class ParamCommission {
+    @Id
     @Basic
     @Column(name = "marge_commission", nullable = true, precision = 0)
     private Double margeCommission;

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/voiture_app")
+@RequestMapping("/register")
 @RequiredArgsConstructor
 public class AuthenticationController {
 

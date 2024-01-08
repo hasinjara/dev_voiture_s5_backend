@@ -1,6 +1,9 @@
 package com.demo.voiture.models;
 
 import jakarta.persistence.*;
+// import org.hibernate.annotations.ColumnDefault;
+
+import com.demo.voiture.dto.AnnonceDto;
 
 import java.sql.Date;
 import java.util.Objects;
@@ -35,12 +38,59 @@ public class Annonce {
     @Basic
     @Column(name = "prix_vente", nullable = true, precision = 0)
     private Double prixVente;
+
     @Basic
     @Column(name = "date_annonce", nullable = true)
     private Date dateAnnonce;
     @Basic
     @Column(name = "etat", nullable = true)
     private Integer etat;
+
+    public Annonce() {
+        this.dateAnnonce = new Date(System.currentTimeMillis()); // ou utilisez java.sql.Date.valueOf(LocalDate.now()) pour SQL Date
+        this.etat = 0;
+    }
+
+    public void defaultColumn() {
+        this.dateAnnonce = new Date(System.currentTimeMillis()); // ou utilisez java.sql.Date.valueOf(LocalDate.now()) pour SQL Date
+        this.etat = 0;
+    }
+    
+   
+    public Annonce(String idUsers, String idVoiture, String idFicheTechnique, String idCategorie,
+                   Double kilometrage, Double etatVoiture, String description, Double prixVente) throws Exception { 
+        try {
+            this.setIdUsers(idUsers);
+            this.setIdVoiture(idVoiture);
+            this.setIdFicheTechnique(idFicheTechnique);
+            this.setIdCategorie(idCategorie);
+            this.setKilometrage(kilometrage);
+            this.setEtatVoiture(etatVoiture);
+            this.setDescription(description);
+            this.setPrixVente(prixVente);
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw e;
+        }
+        
+    }
+
+    public Annonce(AnnonceDto annonceDto) throws Exception {
+        try {
+            this.setIdUsers(annonceDto.getIdUsers());
+            this.setIdVoiture(annonceDto.getIdVoiture());
+            this.setIdFicheTechnique(annonceDto.getIdFicheTechnique());
+            this.setIdCategorie(annonceDto.getIdCategorie());
+            this.setKilometrage(annonceDto.getKilometrage());
+            this.setEtatVoiture(annonceDto.getEtatVoiture());
+            this.setDescription(annonceDto.getDescription());
+            this.setPrixVente(annonceDto.getPrixVente());
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw e;
+        }
+    }
+
 
     public String getIdAnnonce() {
         return idAnnonce;
@@ -86,7 +136,10 @@ public class Annonce {
         return kilometrage;
     }
 
-    public void setKilometrage(Double kilometrage) {
+    public void setKilometrage(Double kilometrage) throws Exception {
+        if(kilometrage < 0) {
+            throw new Exception("Invalide Kilometrage");
+        }
         this.kilometrage = kilometrage;
     }
 
@@ -94,7 +147,10 @@ public class Annonce {
         return etatVoiture;
     }
 
-    public void setEtatVoiture(Double etatVoiture) {
+    public void setEtatVoiture(Double etatVoiture) throws Exception {
+        if(etatVoiture < 0 || etatVoiture > 10) {
+            throw new Exception("Etat entre 0 a 10");
+        }
         this.etatVoiture = etatVoiture;
     }
 
@@ -110,7 +166,10 @@ public class Annonce {
         return prixVente;
     }
 
-    public void setPrixVente(Double prixVente) {
+    public void setPrixVente(Double prixVente)  throws Exception {
+        if(prixVente<0) {
+            throw new Exception("Invalide prix de vente");
+        }
         this.prixVente = prixVente;
     }
 

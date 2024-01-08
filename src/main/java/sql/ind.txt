@@ -1,146 +1,162 @@
-voici une part de mes tables en postgres
+voici un exemple de modele 
 
-create sequence seq_categorie increment by 1 minvalue 1;
-CREATE TABLE categorie(
-   id_categorie varchar default 'CATEG'||nextval('seq_categorie'),
-   categorie varchar not null,
-   PRIMARY KEY(id_categorie)
-);
+@Entity
+public class Boite {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id_boite", nullable = false, length = -1)
+    private String idBoite;
+    @Basic
+    @Column(name = "boite", nullable = false, length = -1)
+    private String boite;
+    
+    ...
+}
 
-create sequence seq_marque increment by 1 minvalue 1;
-CREATE TABLE marque(
-   id_marque varchar default 'MA'||nextval('seq_marque'),
-   marque varchar not null,
-   PRIMARY KEY(id_marque)
-);
+un repository
+package com.demo.voiture.repositories;
 
-create sequence seq_energie increment by 1 minvalue 1;
-CREATE TABLE energie(
-   id_energie varchar default 'EN'||nextval('seq_energie'),
-   energie varchar not null,
-   PRIMARY KEY(id_energie)
-);
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.demo.voiture.models.Boite;
 
-create sequence seq_boite increment by 1 minvalue 1;
-CREATE TABLE boite(
-   id_boite varchar default 'B'||nextval('seq_boite'),
-   boite varchar not null,
-   PRIMARY KEY(id_boite)
-);
-
-create sequence seq_voiture increment by 1 minvalue 1;
-CREATE TABLE voiture(
-   id_voiture varchar default 'V'||nextval('seq_voiture'),
-   nom_modele varchar not null,
-   anne_sortie INTEGER NOT NULL,
-   id_marque varchar not null,
-   foreign key(id_marque) references marque(id_marque),
-   PRIMARY KEY (id_voiture)
-);
-
-create sequence seq_voiture_categorie increment by 1 minvalue 1;
-CREATE TABLE voiture_categorie(
-   id_voiture_categorie varchar default 'VC'||nextval('seq_voiture_categorie'),
-   id_voiture varchar not null,
-   id_categorie varchar not null,
-   foreign key (id_voiture) references voiture(id_voiture),
-   foreign key (id_categorie) references categorie(id_categorie),
-   PRIMARY KEY (id_voiture_categorie)
-);
-
-create sequence seq_fiche_technique increment by 1 minvalue 1;
-CREATE TABLE fiche_technique(
-   id_fiche_technique varchar default 'FT'||nextval('seq_fiche_technique'),
-   id_voiture varchar not null,
-   id_energie varchar not null,
-   id_boite varchar not null,
-   moteur varchar,
-   litre_moteur double precision,
-   consommation double precision,
-   puissance double precision,
-   nb_vitesse double precision,
-   nb_place double precision,
-   nb_porte double precision,
-   longueur double precision,
-   poids double precision,
-   foreign key (id_voiture) references voiture(id_voiture),
-   foreign key (id_energie) references energie(id_energie),
-   foreign key (id_boite) references boite(id_boite),
-   PRIMARY KEY (id_fiche_technique)
-);
-
-voici mes donnes 
--marques
- id_marque |   marque
------------+------------
- MA1       | Peugeot
- MA2       | Renault
- MA3       | Audi
- MA4       | VolksWagen
- MA5       | Bmw
- MA6       | Mercedes
+public interface BoiteRepository extends JpaRepository <Boite, String> {
+    
+}
 
 
- - categorie
-  id_categorie |   categorie
---------------+----------------
- CATEG1       | Sport
- CATEG2       | 4x4
- CATEG3       | Pick*up
- CATEG4       | SUV
- CATEG5       | Crossover
- CATEG6       | Berline
- CATEG7       | Break
- CATEG8       | Cabriolet
- CATEG9       | Coupé
- CATEG10      | Monospace
- CATEG11      | Bus et minibus
- CATEG12      | Fourgon
- CATEG13      | Camion
+un service
+package com.demo.voiture.services;
 
--energie
-  id_energie |  energie
-------------+------------
- EN1        | Diesel
- EN2        | Essence
- EN3        | Electrique
+import java.util.List;
 
- - boite
-  id_boite |    boite
-----------+--------------
- B1       | Manuelle
- B2       | Automatique
- B3       | Séquentielle
+import org.springframework.stereotype.Service;
 
- voici un exemple d'insertion de voiture avec les categories possible d'une voitures et des fiches techniques possible 
- insert into voiture (id_voiture ,nom_modele, anne_sortie, id_marque) values
-('205', 1983, 'MA1'); -- id_voiture sera V1 quand il est insere
+import com.demo.voiture.dto.AnnonceDto;
+import com.demo.voiture.models.Annonce;
+import com.demo.voiture.models.Boite;
+import com.demo.voiture.models.DetailsAnnonce;
+import com.demo.voiture.models.Retour;
+import com.demo.voiture.repositories.BoiteRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class BoiteService {
+    private final BoiteRepository boiteRepository;
+
+    public Retour find(String id) {
+        try {
+            if(id == null) {
+                List<Boite> all = boiteRepository.findAll();
+                return  new Retour(all);
+            }
+            else {
+                Boite boite = boiteRepository.findById(id).orElse(null);
+                return new Retour(boite);
+            }
+
+        }
+        catch (Exception e) {
+            return  new Retour(e.getMessage(), "Failed", null);
+        }
+    }
+
+    public Retour create(Boite boite) {
+        try {
+            return new Retour( boiteRepository.save(boite) );
+        } catch (Exception e) {
+            return new Retour(e.getMessage(), null);
+        }
+    }
+
+    public Retour update(String id , Boite boite) {
+        try {
+            Boite update = boiteRepository.findById(id).get();
+            update.setBoite(boite.getBoite());
+            boiteRepository.save(update);
+            return new Retour( null );
+        } catch (Exception e) {
+            return new Retour(e.getMessage(), null);
+        }
+    }
+
+    public Retour delete(String id) {
+        try {
+            boiteRepository.deleteById(id);
+            return new Retour("Boite supprime id "+id) ;
+        }
+        catch (Exception e) {
+            return new Retour(e.getMessage(), null);
+        }
+    }
 
 
--- categories possible pour 205 exemple sport et coupé
-insert into voiture categorie (id_voiture, id_categorie) values
-('V1', 'CATEG1'),
-('V1', 'CATEG9');
+}
 
--- exemple de 205 essence boite manuelle GTI 1.6l 7.5/100km 8CV 5 vitesses 5 places 5 portes 3.70m longueur et 1200 kg
--- exemple de 205 diesel boite manuelle GTD 1.8l 7.5/100km 10CV 5 vitesses 5 places 5 portes 3.70m longueur et 1200 kg
-insert into fiche_technique (id_voiture, id_energie, id_boite, moteur, litre_moteur, consommation, puissance, nb_vitesse, nb_place, nb_porte, longueur, poids) values
-('V1',  'EN2',  'B1',  'GTI',  1.6,  7.5,   8,  5,  5,  5,  3.70, 1200),
-('V1',  'EN1',  'B1',  'GTD',  1.8,  7.5,  10,  5,  5,  5,  3.70, 1200);
+et un controlleur
+package com.demo.voiture.controller;
+
+import org.springframework.web.bind.annotation.*;
 
 
-Je voudrais avoir quelques donnes d'exemple pour celui ci pour chaque marque
-pour Peugeot ajouter 206, 306, 308
-renault R5 Duster
-Audi A5 A3 RS5
-VolksWagen MK1 MK2 MK3
-Bmw E36 E46 E30
-Mercedes Sprinter CLasseA
+import com.demo.voiture.models.Retour;
+import com.demo.voiture.models.Boite;
+import com.demo.voiture.services.BoiteService;
 
-il n'y a pas de probleme si vous ne savez pas leur fiche techniques en temps reel, completez les logiquement seulement
-et limiter a 3 categories maximum et 3 fiche techniques maximum
-par exemple il y a pas de probleme si pour 206 vous mettez seulement coupé
-et pour Sprinter moteur 306 cdi et 312 d pqs de probleme
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/boite")
+@RequiredArgsConstructor
+public class BoiteController {
+    private final BoiteService BoiteService;
+
+    @GetMapping("")
+    public Retour list_Boites() {
+        return BoiteService.find(null);
+    }
+
+    @GetMapping("/{id}")
+    public Retour boite_id(@PathVariable String id) {
+        return BoiteService.find(id);
+    }
+
+    @PostMapping()
+    public Retour create(@RequestBody Boite boite) {
+        return  BoiteService.create(boite); 
+    }
+
+    @PutMapping("/{id}")
+    public Retour update(@PathVariable String id, @RequestBody Boite BoiteDto) {
+        return  BoiteService.update(id,BoiteDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public Retour delete(@PathVariable String id) {
+        return  BoiteService.delete(id);
+    }
+}
 
 
+merci beaucoup pour ceci aussi
+@Entity
+public class Voiture {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id_voiture", nullable = false, length = -1)
+    private String idVoiture;
+    @Basic
+    @Column(name = "nom_modele", nullable = false, length = -1)
+    private String nomModele;
+    @Basic
+    @Column(name = "anne_sortie", nullable = false)
+    private int anneSortie;
+    @Basic
+    @Column(name = "id_marque", nullable = false, length = -1)
+    private String idMarque; 
+
+}
+
+repositories, service , controller
