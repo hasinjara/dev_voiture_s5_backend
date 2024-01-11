@@ -1,162 +1,61 @@
-voici un exemple de modele 
-
+dans ce cas on a un view sql
 @Entity
-public class Boite {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id_boite", nullable = false, length = -1)
-    private String idBoite;
-    @Basic
-    @Column(name = "boite", nullable = false, length = -1)
-    private String boite;
+@Table(name = "v_details_annonce", schema = "public", catalog = "voiture")
+public class DetailsAnnonce {
     
-    ...
 }
 
-un repository
-package com.demo.voiture.repositories;
-
+on cree simplement un repository et c'es tout
+exemple
+import com.demo.voiture.models.DetailsAnnonce;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.demo.voiture.models.Boite;
-
-public interface BoiteRepository extends JpaRepository <Boite, String> {
-    
+public interface DetailsAnnonceRepository extends JpaRepository<DetailsAnnonce, String> {
 }
 
+j'ai dis seulement les repositories
 
-un service
-package com.demo.voiture.services;
-
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
-import com.demo.voiture.dto.AnnonceDto;
-import com.demo.voiture.models.Annonce;
-import com.demo.voiture.models.Boite;
-import com.demo.voiture.models.DetailsAnnonce;
-import com.demo.voiture.models.Retour;
-import com.demo.voiture.repositories.BoiteRepository;
-
-import lombok.RequiredArgsConstructor;
-
-@Service
-@RequiredArgsConstructor
-public class BoiteService {
-    private final BoiteRepository boiteRepository;
-
-    public Retour find(String id) {
-        try {
-            if(id == null) {
-                List<Boite> all = boiteRepository.findAll();
-                return  new Retour(all);
-            }
-            else {
-                Boite boite = boiteRepository.findById(id).orElse(null);
-                return new Retour(boite);
-            }
-
-        }
-        catch (Exception e) {
-            return  new Retour(e.getMessage(), "Failed", null);
-        }
-    }
-
-    public Retour create(Boite boite) {
-        try {
-            return new Retour( boiteRepository.save(boite) );
-        } catch (Exception e) {
-            return new Retour(e.getMessage(), null);
-        }
-    }
-
-    public Retour update(String id , Boite boite) {
-        try {
-            Boite update = boiteRepository.findById(id).get();
-            update.setBoite(boite.getBoite());
-            boiteRepository.save(update);
-            return new Retour( null );
-        } catch (Exception e) {
-            return new Retour(e.getMessage(), null);
-        }
-    }
-
-    public Retour delete(String id) {
-        try {
-            boiteRepository.deleteById(id);
-            return new Retour("Boite supprime id "+id) ;
-        }
-        catch (Exception e) {
-            return new Retour(e.getMessage(), null);
-        }
-    }
-
-
-}
-
-et un controlleur
-package com.demo.voiture.controller;
-
-import org.springframework.web.bind.annotation.*;
-
-
-import com.demo.voiture.models.Retour;
-import com.demo.voiture.models.Boite;
-import com.demo.voiture.services.BoiteService;
-
-import lombok.RequiredArgsConstructor;
-
-@RestController
-@RequestMapping("/boite")
-@RequiredArgsConstructor
-public class BoiteController {
-    private final BoiteService BoiteService;
-
-    @GetMapping("")
-    public Retour list_Boites() {
-        return BoiteService.find(null);
-    }
-
-    @GetMapping("/{id}")
-    public Retour boite_id(@PathVariable String id) {
-        return BoiteService.find(id);
-    }
-
-    @PostMapping()
-    public Retour create(@RequestBody Boite boite) {
-        return  BoiteService.create(boite); 
-    }
-
-    @PutMapping("/{id}")
-    public Retour update(@PathVariable String id, @RequestBody Boite BoiteDto) {
-        return  BoiteService.update(id,BoiteDto);
-    }
-
-    @DeleteMapping("/{id}")
-    public Retour delete(@PathVariable String id) {
-        return  BoiteService.delete(id);
-    }
-}
-
-
-merci beaucoup pour ceci aussi
+generer moi des repositories pour ces classes
 @Entity
-public class Voiture {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id_voiture", nullable = false, length = -1)
-    private String idVoiture;
-    @Basic
-    @Column(name = "nom_modele", nullable = false, length = -1)
-    private String nomModele;
-    @Basic
-    @Column(name = "anne_sortie", nullable = false)
-    private int anneSortie;
-    @Basic
-    @Column(name = "id_marque", nullable = false, length = -1)
-    private String idMarque; 
+@Table(name = "v_details_fiche_techniques", schema = "public", catalog = "voiture")
+public class DetailsFicheTechniques {
 
 }
 
-repositories, service , controller
+@Entity
+@Table(name = "v_details_voiture", schema = "public", catalog = "voiture")
+public class DetailsVoiture {
+
+}
+
+@Entity
+@Table(name = "v_voiture_categorie", schema = "public", catalog = "voiture")
+public class DetailsVoitureCategorie {
+
+}
+
+@Entity
+@Table(name = "voiture_categorie", schema = "public", catalog = "voiture")
+public class VoitureCategorie {
+
+}
+
+
+@Entity
+@Table(name = "favoris_user_annonce", schema = "public", catalog = "voiture")
+public class FavorisUserAnnonce {
+
+}
+
+
+@Entity
+@Table(name = "param_commission", schema = "public", catalog = "voiture")
+public class ParamCommission {
+
+}
+
+@Entity
+@Table(name = "v_voiture_marque", schema = "public", catalog = "voiture")
+public class VoitureMarque { 
+
+}

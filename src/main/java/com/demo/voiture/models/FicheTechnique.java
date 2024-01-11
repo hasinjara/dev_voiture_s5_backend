@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
+import com.demo.voiture.dto.FicheTechniqueDto;
+
 @Entity
 @Table(name = "fiche_technique", schema = "public", catalog = "voiture")
 public class FicheTechnique {
@@ -47,6 +49,29 @@ public class FicheTechnique {
     @Basic
     @Column(name = "poids", nullable = true, precision = 0)
     private Double poids;
+
+    public FicheTechnique() {
+    }
+
+    public FicheTechnique(FicheTechniqueDto ficheTechniqueDto) throws Exception {
+        try {
+            setIdVoiture(ficheTechniqueDto.getIdVoiture());
+            setIdEnergie(ficheTechniqueDto.getIdEnergie());
+            setIdBoite(ficheTechniqueDto.getIdBoite());
+            setMoteur(ficheTechniqueDto.getMoteur());
+            setLitreMoteur(ficheTechniqueDto.getLitreMoteur());
+            setConsommation(ficheTechniqueDto.getConsommation());
+            setPuissance(ficheTechniqueDto.getPuissance());
+            setNbVitesse(ficheTechniqueDto.getNbVitesse());
+            setNbPorte(ficheTechniqueDto.getNbPorte());
+            setNbPlace(ficheTechniqueDto.getNbPlace());
+            setLongueur(ficheTechniqueDto.getLongueur());
+            setPoids(ficheTechniqueDto.getPoids());
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw e;
+        }
+    }
 
     public String getIdFicheTechnique() {
         return idFicheTechnique;

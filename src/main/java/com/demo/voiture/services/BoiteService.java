@@ -4,10 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.demo.voiture.dto.AnnonceDto;
-import com.demo.voiture.models.Annonce;
+
 import com.demo.voiture.models.Boite;
-import com.demo.voiture.models.DetailsAnnonce;
 import com.demo.voiture.models.Retour;
 import com.demo.voiture.repositories.BoiteRepository;
 

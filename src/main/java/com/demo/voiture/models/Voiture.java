@@ -20,6 +20,7 @@ public class Voiture {
     @Column(name = "id_marque", nullable = false, length = -1)
     private String idMarque;
 
+
     public String getIdVoiture() {
         return idVoiture;
     }
@@ -51,6 +52,8 @@ public class Voiture {
     public void setIdMarque(String idMarque) {
         this.idMarque = idMarque;
     }
+
+    
 
     @Override
     public boolean equals(Object o) {

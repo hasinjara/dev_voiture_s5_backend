@@ -3,12 +3,17 @@ package com.demo.voiture.services;
 import com.demo.voiture.dto.AnnonceDto;
 import com.demo.voiture.models.Annonce;
 import com.demo.voiture.models.DetailsAnnonce;
+import com.demo.voiture.models.DetailsFicheTechniques;
+import com.demo.voiture.models.DetailsVoitureCategorie;
 import com.demo.voiture.models.Retour;
 import com.demo.voiture.repositories.AnnonceRepository;
 import com.demo.voiture.repositories.DetailsAnnonceRepository;
+import com.demo.voiture.repositories.DetailsFicheTechniquesRepository;
+import com.demo.voiture.repositories.DetailsVoitureCategorieRepository;
+
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -18,6 +23,8 @@ public class AnnonceService {
 
     private final DetailsAnnonceRepository detailsAnnonceRepository;
     private final AnnonceRepository annonceRepository;
+    private final DetailsFicheTechniquesRepository detailsFicheTechniquesRepository;
+    private final DetailsVoitureCategorieRepository detailsVoitureCategorieRepository;
 
     public Retour getDetailsAnnonce(String id) {
         try {
@@ -36,10 +43,41 @@ public class AnnonceService {
         }
     }
 
+    void verifyCategAndFicheTech(AnnonceDto annonceDto) throws Exception {
+        try {
+            List<DetailsVoitureCategorie>  voitureCategorie = detailsVoitureCategorieRepository.findByIdVoiture(annonceDto.getIdVoiture());
+            boolean categ_exist = false;
+            for (DetailsVoitureCategorie detailsVoitureCategorie : voitureCategorie) {
+                if(detailsVoitureCategorie.getIdCategorie().compareTo(annonceDto.getIdCategorie()) == 0) {
+                    categ_exist = true;
+                    break;
+                }
+            }
+            if(categ_exist == false) {
+                throw new Exception("Cette categorie n'existe pas sur cette voiture");
+            }
+
+            List<DetailsFicheTechniques >  DetailsFicheTechniques  = detailsFicheTechniquesRepository.findByIdVoiture(annonceDto.getIdVoiture());
+            boolean fiche_exist = false;
+            for (DetailsFicheTechniques detailsFt : DetailsFicheTechniques) {
+                if(detailsFt.getIdFicheTechnique().compareTo(annonceDto.getIdFicheTechnique()) == 0 ){
+                    fiche_exist = true;
+                }
+            }
+            if(fiche_exist == false) {
+                throw new Exception("Cette fiche technique n'existe pas sur cette voiture");
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw e;
+        }
+    }
+
     public Retour creer(AnnonceDto annonceDto) {
         try {
             Annonce annonce = new Annonce(annonceDto);
             annonce.defaultColumn();
+            verifyCategAndFicheTech(annonceDto);
             return new Retour( annonceRepository.save(annonce) );
         } catch (Exception e) {
             return new Retour(e.getMessage(), null);
@@ -50,6 +88,7 @@ public class AnnonceService {
         try {
             Annonce a = annonceRepository.findById(id).get();
             Annonce annonce = new Annonce(annonceDto);
+            verifyCategAndFicheTech(annonceDto);
             a.setDescription(annonce.getDescription());
             //a.setEtat(annonce.getEtat());
             a.setEtatVoiture(annonce.getEtatVoiture());

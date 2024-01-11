@@ -24,20 +24,20 @@ public class SeedDataConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (userRepository.count() == 0) {
+        // if (userRepository.count() == 0) {
 
-            User admin = User
-                    .builder()
-                    .nom("admin")
-                    .prenom("admin")
-                    .mail("admin@admin.com")
-                    .mdp(passwordEncoder.encode("admin"))
-                    //.mdp("admin")
-                    .role(Role.ROLE_ADMIN)
-                    .build();
+        //     User admin = User
+        //             .builder()
+        //             .nom("admin")
+        //             .prenom("admin")
+        //             .mail("admin@admin.com")
+        //             .mdp(passwordEncoder.encode("admin"))
+        //             //.mdp("admin")
+        //             .role(Role.ROLE_ADMIN)
+        //             .build();
 
-            userService.save(admin);
-            log.debug("created ADMIN user - {}", admin);
-        }
+        //     userService.save(admin);
+        //     log.debug("created ADMIN user - {}", admin);
+        // }
     }
 }

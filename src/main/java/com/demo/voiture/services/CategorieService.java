@@ -44,6 +44,9 @@ public class CategorieService {
                 update.setCategorie(categorie.getCategorie());
                 categorieRepository.save(update);
             }
+            else {
+                return new Retour("Id "+ id + " not found");
+            }
             return new Retour(null);
         } catch (Exception e) {
             return new Retour(e.getMessage(), null);

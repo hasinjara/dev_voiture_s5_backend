@@ -1,7 +1,6 @@
 package com.demo.voiture.controller;
 
 import com.demo.voiture.dto.AnnonceDto;
-import com.demo.voiture.models.Annonce;
 import com.demo.voiture.models.Retour;
 import com.demo.voiture.services.AnnonceService;
 import lombok.RequiredArgsConstructor;

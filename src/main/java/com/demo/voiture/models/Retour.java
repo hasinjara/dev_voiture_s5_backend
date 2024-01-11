@@ -2,12 +2,12 @@ package com.demo.voiture.models;
 
 public class Retour {
 
-    String erreur;
+    String error;
     String message;
     Object data;
 
-    public Retour(String erreur, String message, Object data) {
-        this.erreur = erreur;
+    public Retour(String error, String message, Object data) {
+        this.error = error;
         this.message = message;
         this.data = data;
     }
@@ -15,11 +15,11 @@ public class Retour {
     public Retour(Object data)  {
         try {
             this.data = data;
-            this.erreur = "aucun";
+            this.error = "aucun";
             this.message = "Reussi";
         }catch (Exception e) {
             this.data = null;
-            this.erreur = e.getMessage();
+            this.error = e.getMessage();
             this.message = "Echoue";
         }
 
@@ -28,18 +28,18 @@ public class Retour {
 //    public Retour(Object data, String message)  {
 //        try {
 //            this.data = data;
-//            this.erreur = "aucun";
+//            this.error = "aucun";
 //            this.message = message;
 //        }catch (Exception e) {
 //            this.data = null;
-//            this.erreur = e.getMessage();
+//            this.error = e.getMessage();
 //            this.message = "Echoue";
 //        }
 //
 //    }
 
-    public Retour(String erreur, Object data) {
-        this.erreur = erreur;
+    public Retour(String error, Object data) {
+        this.error = error;
         this.data = data;
         this.message = "Failed";
     }
@@ -47,12 +47,12 @@ public class Retour {
     public Retour() {
     }
 
-    public String getErreur() {
-        return erreur;
+    public String getError() {
+        return error;
     }
 
-    public void setErreur(String erreur) {
-        this.erreur = erreur;
+    public void seterror(String error) {
+        this.error = error;
     }
 
     public Object getData() {

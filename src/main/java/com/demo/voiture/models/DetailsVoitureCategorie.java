@@ -8,7 +8,7 @@ import java.util.Objects;
 @Table(name = "v_voiture_categorie", schema = "public", catalog = "voiture")
 public class DetailsVoitureCategorie {
 
-    @Id
+    
     @Basic
     @Column(name = "id_voiture", nullable = true, length = -1)
     private String idVoiture;
@@ -21,9 +21,11 @@ public class DetailsVoitureCategorie {
     @Basic
     @Column(name = "id_marque", nullable = true, length = -1)
     private String idMarque;
+    
     @Basic
     @Column(name = "id_categorie", nullable = true, length = -1)
     private String idCategorie;
+    @Id
     @Basic
     @Column(name = "categorie", nullable = true, length = -1)
     private String categorie;
