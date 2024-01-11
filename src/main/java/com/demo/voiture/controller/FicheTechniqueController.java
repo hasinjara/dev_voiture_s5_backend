@@ -33,7 +33,7 @@ public class FicheTechniqueController {
         return ficheTechniqueService.create(ficheTechniqueDto);
     }
 
-     @PutMapping("/{id}")
+    @PutMapping("/{id}")
     public Retour update(@PathVariable String id, @RequestBody FicheTechniqueDto ficheTechniqueDto) {
         return ficheTechniqueService.update(id, ficheTechniqueDto);
     }

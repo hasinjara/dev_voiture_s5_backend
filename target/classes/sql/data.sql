@@ -50,6 +50,10 @@ insert into boite (boite) values
 ('Automatique'),
 ('Séquentielle');
 
+--  param commision
+insert into param_commission(marge_commission) values
+(10);
+
 -- Voitures
 insert into voiture (nom_modele, anne_sortie, id_marque) values
 ('205', 1983, 'MA1'),

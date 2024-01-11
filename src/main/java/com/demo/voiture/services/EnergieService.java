@@ -46,7 +46,7 @@ public class EnergieService {
                 energieRepository.save(update);
             }
             else {
-                return new Retour("Id "+ id + " not found");
+                return new Retour("Id "+ id + " not found",null);
             }
             return new Retour(null);
         } catch (Exception e) {
