@@ -23,8 +23,8 @@ public class DemoController {
     }
 
     @GetMapping("/admins")
-    //@PreAuthorize("hasRole('ADMIN')")
-    @Secured({"ADMIN"})
+    @PreAuthorize("hasRole('ADMIN')")
+    //@Secured(value = {"ROLE_ADMIN"})
     public String adminsEndPoint() {
         return "ONLY admins can see this";
     }

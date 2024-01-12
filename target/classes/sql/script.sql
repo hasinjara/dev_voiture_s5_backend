@@ -119,7 +119,7 @@ CREATE TABLE commission(
 
 create sequence seq_favoris_user_annonce increment by 1 minvalue 1;
 CREATE TABLE favoris_user_annonce(
-   id_favoris_user_annonce varchar default 'B'||nextval('seq_favoris_user_annonce'),
+   id_favoris_user_annonce varchar default 'FUA'||nextval('seq_favoris_user_annonce'),
    id_annonce varchar not null,
    id_users varchar not null,
    foreign key (id_annonce) references annonce(id_annonce),

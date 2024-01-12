@@ -53,7 +53,7 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                         //-register
                         //.requestMatchers(HttpMethod.POST,"/register/signup","/register/signin").permitAll()
-                        // .requestMatchers(HttpMethod.GET, "/app/test/**").permitAll()
+                        //.requestMatchers(HttpMethod.GET, "/app/test/**").permitAll()
                         // //-annonce
                         // .requestMatchers(HttpMethod.GET, "/annonce/**").permitAll()
                         // .requestMatchers(HttpMethod.POST, "/annonce/**").permitAll()
