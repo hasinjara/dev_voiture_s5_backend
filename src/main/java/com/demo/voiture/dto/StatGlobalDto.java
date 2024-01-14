@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StatGlobal {
+public class StatGlobalDto {
     List<StatVoitureGlobal> statVoitureGlobals;
     List<StatMarqueGlobal> statMarqueGlobals;
     List<StatCategorieGlobal> statCategorieGlobals;

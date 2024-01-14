@@ -1,9 +1,6 @@
 package com.demo.voiture.models.stat;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigInteger;
 import java.util.Objects;
@@ -11,15 +8,18 @@ import java.util.Objects;
 @Entity
 @Table(name = "v_users", schema = "public", catalog = "voiture")
 public class VUsers {
+    
     @Basic
     @Column(name = "nb_users", nullable = true)
     private Long nbUsers;
     @Basic
     @Column(name = "anne", nullable = true, precision = 0)
-    private BigInteger anne;
+    private Integer anne;
+    
+    @Id
     @Basic
     @Column(name = "mois", nullable = true, precision = 0)
-    private BigInteger mois;
+    private Integer mois;
 
     public Long getNbUsers() {
         return nbUsers;
@@ -29,21 +29,7 @@ public class VUsers {
         this.nbUsers = nbUsers;
     }
 
-    public BigInteger getAnne() {
-        return anne;
-    }
-
-    public void setAnne(BigInteger anne) {
-        this.anne = anne;
-    }
-
-    public BigInteger getMois() {
-        return mois;
-    }
-
-    public void setMois(BigInteger mois) {
-        this.mois = mois;
-    }
+    
 
     @Override
     public boolean equals(Object o) {
@@ -56,5 +42,21 @@ public class VUsers {
     @Override
     public int hashCode() {
         return Objects.hash(nbUsers, anne, mois);
+    }
+
+    public Integer getAnne() {
+        return anne;
+    }
+
+    public void setAnne(Integer anne) {
+        this.anne = anne;
+    }
+
+    public Integer getMois() {
+        return mois;
+    }
+
+    public void setMois(Integer mois) {
+        this.mois = mois;
     }
 }

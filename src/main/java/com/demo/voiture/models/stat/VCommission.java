@@ -1,9 +1,6 @@
 package com.demo.voiture.models.stat;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.util.Objects;
@@ -11,6 +8,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "v_commission", schema = "public", catalog = "voiture")
 public class VCommission {
+
+    @Id
     @Basic
     @Column(name = "id_commission", nullable = true, length = -1)
     private String idCommission;

@@ -1,16 +1,14 @@
 package com.demo.voiture.models.stat;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigInteger;
 import java.util.Objects;
 
 @Entity
 @Table(name = "v_stat_marque_mensuel", schema = "public", catalog = "voiture")
-public class VStatMarqueMensuel {
+public class StatMarqueMensuel {
+    @Id
     @Basic
     @Column(name = "id_marque", nullable = true, length = -1)
     private String idMarque;
@@ -82,7 +80,7 @@ public class VStatMarqueMensuel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VStatMarqueMensuel that = (VStatMarqueMensuel) o;
+        StatMarqueMensuel that = (StatMarqueMensuel) o;
         return Objects.equals(idMarque, that.idMarque) && Objects.equals(marque, that.marque) && Objects.equals(mois, that.mois) && Objects.equals(anne, that.anne) && Objects.equals(nbCommission, that.nbCommission) && Objects.equals(commissionTotal, that.commissionTotal);
     }
 

@@ -1,15 +1,13 @@
 package com.demo.voiture.models.stat;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "v_stat_voiture_global", schema = "public", catalog = "voiture")
-public class VStatVoitureGlobal {
+public class StatVoitureGlobal {
+    @Id
     @Basic
     @Column(name = "id_voiture", nullable = true, length = -1)
     private String idVoiture;
@@ -48,7 +46,7 @@ public class VStatVoitureGlobal {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VStatVoitureGlobal that = (VStatVoitureGlobal) o;
+        StatVoitureGlobal that = (StatVoitureGlobal) o;
         return Objects.equals(idVoiture, that.idVoiture) && Objects.equals(nomModele, that.nomModele) && Objects.equals(nbAnnonce, that.nbAnnonce);
     }
 

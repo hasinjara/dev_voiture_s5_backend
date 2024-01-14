@@ -1,16 +1,13 @@
 package com.demo.voiture.models.stat;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigInteger;
 import java.util.Objects;
 
 @Entity
 @Table(name = "v_revenu_mensuel", schema = "public", catalog = "voiture")
-public class VRevenuMensuel {
+public class RevenuMensuel {
     @Basic
     @Column(name = "nb_commission", nullable = true)
     private Long nbCommission;
@@ -19,10 +16,12 @@ public class VRevenuMensuel {
     private Double totalCommission;
     @Basic
     @Column(name = "anne", nullable = true, precision = 0)
-    private BigInteger anne;
+    private Integer anne;
+
+    @Id
     @Basic
     @Column(name = "mois", nullable = true, precision = 0)
-    private BigInteger mois;
+    private Integer mois;
 
     public Long getNbCommission() {
         return nbCommission;
@@ -40,32 +39,34 @@ public class VRevenuMensuel {
         this.totalCommission = totalCommission;
     }
 
-    public BigInteger getAnne() {
-        return anne;
-    }
-
-    public void setAnne(BigInteger anne) {
-        this.anne = anne;
-    }
-
-    public BigInteger getMois() {
-        return mois;
-    }
-
-    public void setMois(BigInteger mois) {
-        this.mois = mois;
-    }
+    
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VRevenuMensuel that = (VRevenuMensuel) o;
+        RevenuMensuel that = (RevenuMensuel) o;
         return Objects.equals(nbCommission, that.nbCommission) && Objects.equals(totalCommission, that.totalCommission) && Objects.equals(anne, that.anne) && Objects.equals(mois, that.mois);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(nbCommission, totalCommission, anne, mois);
+    }
+
+    public Integer getAnne() {
+        return anne;
+    }
+
+    public void setAnne(Integer anne) {
+        this.anne = anne;
+    }
+
+    public Integer getMois() {
+        return mois;
+    }
+
+    public void setMois(Integer mois) {
+        this.mois = mois;
     }
 }

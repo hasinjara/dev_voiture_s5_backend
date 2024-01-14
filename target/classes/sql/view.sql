@@ -229,35 +229,41 @@ create or replace view v_revenu_mensuel as
 
 -- statistique global
 -- total annonce / marque
+create or replace view v_details_annonce_stat as
+    select * from v_details_annonce where etat >= 20;
+
 create or replace view v_stat_marque_global as
     select 
-    id_marque, marque,
-    count(*) as nb_annonce
+    marque.id_marque, marque.marque,
+    count(v_details_annonce_stat.id_marque) as nb_annonce
     from
-        v_details_annonce 
-        where etat >= 20
-        group by id_marque, marque;
+        marque
+        left join v_details_annonce_stat on marque.id_marque = v_details_annonce_stat.id_marque
+        group by marque.id_marque, marque.marque
+        order by nb_annonce DESC;
 
 
 -- total annonce / modele
 create or replace view v_stat_voiture_global as
     select 
-    id_voiture, nom_modele,
-    count(*) as nb_annonce
+    voiture.id_voiture, voiture.nom_modele,
+    count(v_details_annonce_stat.id_voiture) as nb_annonce
     from
-        v_details_annonce 
-        where etat >= 20
-        group by id_voiture, nom_modele;
+        voiture
+        left join v_details_annonce_stat on voiture.id_voiture = v_details_annonce_stat.id_voiture
+        group by voiture.id_voiture, voiture.nom_modele
+        order by nb_annonce DESC;
 
 
 -- total annonce / categorie
 create or replace view v_stat_categorie_global as
     select 
-    id_categorie, categorie,
-    count(*) as nb_annonce
+    categorie.id_categorie, categorie.categorie,
+    count(v_details_annonce_stat.id_categorie) as nb_annonce
     from
-        v_details_annonce 
-        where etat >= 20
-        group by id_categorie, categorie;
+        categorie
+        left join v_details_annonce_stat on categorie.id_categorie = v_details_annonce_stat.id_categorie
+        group by categorie.id_categorie, categorie.categorie
+        order by nb_annonce DESC;
 
 
