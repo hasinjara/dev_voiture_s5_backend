@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.demo.voiture.models.Annonce;
 import com.demo.voiture.models.FavorisUserAnnonce;
 import com.demo.voiture.models.Retour;
+import com.demo.voiture.repositories.AnnonceRepository;
 import com.demo.voiture.repositories.FavorisUserAnnonceRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FavorisUserAnnonceService {
     private final FavorisUserAnnonceRepository favorisUserAnnonceRepository;
+    private final AnnonceRepository annonceRepository;
 
     public Retour find(String idUsers) {
         try {
@@ -31,6 +34,10 @@ public class FavorisUserAnnonceService {
 
     void verifyExistence(FavorisUserAnnonce favorisUserAnnonce) throws Exception {
         try {
+            Annonce a = annonceRepository.findById(favorisUserAnnonce.getIdAnnonce()).get();
+            if(a.getEtat() < 20) {
+                throw new Exception("Annonce pas encore valide");
+            }
             boolean exist = favorisUserAnnonceRepository.existsByIdUsersAndIdAnnonce(favorisUserAnnonce.getIdUsers(), favorisUserAnnonce.getIdAnnonce());
             if(exist == true) {
                 throw new Exception("Favoris existe deja");

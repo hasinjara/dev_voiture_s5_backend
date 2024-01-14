@@ -2,6 +2,7 @@ package com.demo.voiture.controller;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.demo.voiture.dto.VoitureDto;
 import com.demo.voiture.models.Retour;
 import com.demo.voiture.models.Voiture;
 import com.demo.voiture.services.VoitureService;
@@ -25,8 +26,8 @@ public class VoitureController {
     }
 
     @PostMapping()
-    public Retour create(@RequestBody Voiture voiture) {
-        return voitureService.create(voiture);
+    public Retour create(@RequestBody VoitureDto voitureDto) {
+        return voitureService.create(voitureDto);
     }
 
     @PutMapping("/{id}")

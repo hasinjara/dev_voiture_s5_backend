@@ -2,10 +2,16 @@ package com.demo.voiture.models;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Objects;
+
+import com.demo.voiture.dto.VoitureDto;
 
 @Entity
 public class Voiture {
+    
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_voiture", nullable = false, length = -1)
@@ -20,6 +26,22 @@ public class Voiture {
     @Column(name = "id_marque", nullable = false, length = -1)
     private String idMarque;
 
+
+    public Voiture() {
+    }
+
+    public Voiture(VoitureDto voitureDto) throws Exception {
+        try {
+            setNomModele(voitureDto.getNomModele());
+            setIdMarque(voitureDto.getIdMarque());
+            setAnneSortie(voitureDto.getAnneSortie());
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw e;
+        }
+    }
+
+    
 
     public String getIdVoiture() {
         return idVoiture;
@@ -41,8 +63,24 @@ public class Voiture {
         return anneSortie;
     }
 
-    public void setAnneSortie(int anneSortie) {
-        this.anneSortie = anneSortie;
+    
+
+    public void setAnneSortie(int anneSortie) throws Exception {
+        // Obtenez la date actuelle
+        LocalDate currentDate = LocalDate.now();
+
+        // Obtenez l'année de la date actuelle
+        int currentYear = currentDate.getYear();
+        if(anneSortie < 1885) {
+            throw new Exception("Annee de sortie entre 1885 jusq'a aujourd'hui "+ currentYear);
+        }
+        if(anneSortie > currentYear) {
+            throw new Exception("Annee de sortie entre 1885 jusq'a aujourd'hui "+ currentYear);
+        }
+        else {
+            this.anneSortie = anneSortie;
+        }
+        
     }
 
     public String getIdMarque() {

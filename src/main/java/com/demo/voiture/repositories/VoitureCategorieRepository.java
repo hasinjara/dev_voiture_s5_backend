@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VoitureCategorieRepository extends JpaRepository<VoitureCategorie, String> {
     List <VoitureCategorie> findByIdVoiture(String idVoiture); 
+    void deleteByIdVoiture(String idVoiture);
 }

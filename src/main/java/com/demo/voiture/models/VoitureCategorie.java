@@ -18,6 +18,20 @@ public class VoitureCategorie {
     @Column(name = "id_categorie", nullable = false, length = -1)
     private String idCategorie;
 
+    
+
+    public VoitureCategorie(String idVoiture, String idCategorie) {
+        this.idVoiture = idVoiture;
+        this.idCategorie = idCategorie;
+    }
+
+
+
+    public VoitureCategorie() {
+    }
+
+    
+
     public String getIdVoitureCategorie() {
         return idVoitureCategorie;
     }

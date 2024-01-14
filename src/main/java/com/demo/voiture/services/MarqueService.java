@@ -2,6 +2,7 @@ package com.demo.voiture.services;
 
 import java.util.List;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.demo.voiture.models.Marque;
@@ -74,7 +75,7 @@ public class MarqueService {
     public Retour delete(String id) {
         try {
             marqueRepository.deleteById(id);
-            return new Retour("Marque supprime id " + id);
+            return new Retour("aucun","Marque supprime id " + id + " Tous les relations avec cette marque seront tous supprime" ,null);
         } catch (Exception e) {
             return new Retour(e.getMessage(), null);
         }

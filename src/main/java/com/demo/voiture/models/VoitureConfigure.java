@@ -1,15 +1,14 @@
 package com.demo.voiture.models;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "v_voiture_configure", schema = "public", catalog = "voiture")
-public class VVoitureConfigure {
+public class VoitureConfigure {
+
+    @Id
     @Basic
     @Column(name = "id_voiture", nullable = true, length = -1)
     private String idVoiture;
@@ -37,7 +36,7 @@ public class VVoitureConfigure {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VVoitureConfigure that = (VVoitureConfigure) o;
+        VoitureConfigure that = (VoitureConfigure) o;
         return Objects.equals(idVoiture, that.idVoiture) && Objects.equals(nomModele, that.nomModele);
     }
 

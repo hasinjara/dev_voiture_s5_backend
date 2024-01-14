@@ -6,6 +6,7 @@ create table users (
    mail varchar,
    mdp varchar,
    role varchar not null,
+   date_inscription date default now()::date,
    primary key (id_users)
 );
 
@@ -45,7 +46,7 @@ CREATE TABLE voiture(
    nom_modele varchar not null,
    anne_sortie INTEGER NOT NULL,
    id_marque varchar not null,
-   foreign key(id_marque) references marque(id_marque),
+   foreign key(id_marque) references marque(id_marque) ON DELETE CASCADE,
    PRIMARY KEY (id_voiture)
 );
 
@@ -54,8 +55,8 @@ CREATE TABLE voiture_categorie(
    id_voiture_categorie varchar default 'VC'||nextval('seq_voiture_categorie'),
    id_voiture varchar not null,
    id_categorie varchar not null,
-   foreign key (id_voiture) references voiture(id_voiture),
-   foreign key (id_categorie) references categorie(id_categorie),
+   foreign key (id_voiture) references voiture(id_voiture) ON DELETE CASCADE,
+   foreign key (id_categorie) references categorie(id_categorie) ON DELETE CASCADE,
    PRIMARY KEY (id_voiture_categorie)
 );
 
@@ -74,14 +75,14 @@ CREATE TABLE fiche_technique(
    nb_porte double precision,
    longueur double precision,
    poids double precision,
-   foreign key (id_voiture) references voiture(id_voiture),
-   foreign key (id_energie) references energie(id_energie),
-   foreign key (id_boite) references boite(id_boite),
+   foreign key (id_voiture) references voiture(id_voiture) ON DELETE CASCADE,
+   foreign key (id_energie) references energie(id_energie) ON DELETE CASCADE,
+   foreign key (id_boite) references boite(id_boite) ON DELETE CASCADE,
    PRIMARY KEY (id_fiche_technique)
 );
 
 
-
+-- etat 0 cree, 10, refuse, 20 valide, 30 vendu
 create sequence seq_annonce increment by 1 minvalue 1;
 CREATE TABLE annonce(
    id_annonce varchar default 'AN'||nextval('seq_annonce'),
@@ -96,9 +97,9 @@ CREATE TABLE annonce(
    date_annonce date default now()::date,
    etat integer default 0,
    foreign key (id_users) references users(id_users),
-   foreign key (id_voiture) references voiture(id_voiture),
-   foreign key (id_fiche_technique) references fiche_technique(id_fiche_technique),
-   foreign key (id_categorie) references categorie(id_categorie),
+   foreign key (id_voiture) references voiture(id_voiture) ON DELETE CASCADE,
+   foreign key (id_fiche_technique) references fiche_technique(id_fiche_technique) ON DELETE CASCADE, 
+   foreign key (id_categorie) references categorie(id_categorie) ON DELETE CASCADE,
    PRIMARY KEY (id_annonce)
 );
 
@@ -111,9 +112,11 @@ create sequence seq_commission increment by 1 minvalue 1;
 CREATE TABLE commission(
    id_commission varchar default 'CM'||nextval('seq_commission'),
    id_annonce varchar not null,
+   marge double precision,
+   prix_vente double precision,
    commission double precision,
    date_commission date default now()::date,
-   foreign key (id_annonce) references annonce(id_annonce),
+   foreign key (id_annonce) references annonce(id_annonce) ON DELETE CASCADE,
    PRIMARY KEY(id_commission)
 );
 
@@ -122,7 +125,7 @@ CREATE TABLE favoris_user_annonce(
    id_favoris_user_annonce varchar default 'FUA'||nextval('seq_favoris_user_annonce'),
    id_annonce varchar not null,
    id_users varchar not null,
-   foreign key (id_annonce) references annonce(id_annonce),
+   foreign key (id_annonce) references annonce(id_annonce) ON DELETE CASCADE,
    foreign key (id_users) references users(id_users),
    PRIMARY KEY(id_favoris_user_annonce)
 );
