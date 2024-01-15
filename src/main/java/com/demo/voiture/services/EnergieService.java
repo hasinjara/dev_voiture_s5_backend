@@ -59,7 +59,7 @@ public class EnergieService {
             energieRepository.deleteById(id);
             return new Retour("Energie supprime id " + id);
         } catch (Exception e) {
-            return new Retour(e.getMessage(), null);
+            return new Retour(e.getMessage(), "Cette energie est utilise dans autre relation",null);
         }
     }
 }

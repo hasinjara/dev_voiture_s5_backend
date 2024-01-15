@@ -58,7 +58,7 @@ public class CategorieService {
             categorieRepository.deleteById(id);
             return new Retour("Categorie supprime id " + id);
         } catch (Exception e) {
-            return new Retour(e.getMessage(), null);
+            return new Retour(e.getMessage(),"Cette categorie est utilise dans autres relations" ,null);
         }
     }
 }

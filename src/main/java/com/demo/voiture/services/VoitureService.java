@@ -164,7 +164,7 @@ public class VoitureService {
             voitureRepository.deleteById(id);
             return new Retour("aucun","Voiture supprime id " + id,null);
         } catch (Exception e) {
-            return new Retour(e.getMessage(), null);
+            return new Retour(e.getMessage(),"Cette voiture est utilise dans autre relation" ,null);
         }
     }
 }

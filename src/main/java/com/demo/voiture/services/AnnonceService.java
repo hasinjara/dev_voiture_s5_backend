@@ -292,7 +292,8 @@ public class AnnonceService {
 
     public Retour supprimer(String id) {
         try {
-           annonceRepository.deleteById(id);
+           //annonceRepository.deleteById(id);
+           Retour r = refuser(id);
            return new Retour("Annonce supprime id "+id) ;
         }
         catch (Exception e) {

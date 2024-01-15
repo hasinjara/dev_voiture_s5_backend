@@ -74,7 +74,7 @@ public class FicheTechniqueService {
             ficheTechniqueRepository.deleteById(id);
             return new Retour("Fiche Technique supprime id " + id);
         } catch (Exception e) {
-            return new Retour(e.getMessage(), null);
+            return new Retour(e.getMessage(),"Cette fiche est utilise dans autre relation" ,null);
         }
     }
 

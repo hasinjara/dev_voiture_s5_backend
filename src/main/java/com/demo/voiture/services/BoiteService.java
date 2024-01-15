@@ -58,7 +58,7 @@ public class BoiteService {
             return new Retour("Boite supprime id "+id) ;
         }
         catch (Exception e) {
-            return new Retour(e.getMessage(), null);
+            return new Retour(e.getMessage(), "Cette boite est utilise dans autre relation",null);
         }
     }
 

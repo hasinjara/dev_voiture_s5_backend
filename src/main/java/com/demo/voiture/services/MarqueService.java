@@ -77,7 +77,7 @@ public class MarqueService {
             marqueRepository.deleteById(id);
             return new Retour("aucun","Marque supprime id " + id + " Tous les relations avec cette marque seront tous supprime" ,null);
         } catch (Exception e) {
-            return new Retour(e.getMessage(), null);
+            return new Retour(e.getMessage(), "Cette marque est utilise dans autre relation",null);
         }
     }
 }
