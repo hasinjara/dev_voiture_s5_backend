@@ -217,15 +217,27 @@ create or replace view v_annonce_mois as
         order by mois, anne;
 
 -- revenu mensuel
-create or replace view v_revenu_mensuel as 
+create or replace view v_revenu_mensuel_details as 
     select 
     count(*) as nb_commission,
     sum(commission) as total_commission,
     EXTRACT(Year FROM date_commission) as anne,
-    EXTRACT(month FROM date_commission) as mois
+    EXTRACT(month FROM date_commission) as mois,
+    EXTRACT(day from date_commission) as jour
     from commission
         group by date_commission, mois, anne
-        order by mois, anne;    
+        order by mois, anne, jour;    
+
+
+create or replace view v_revenu_mensuel as 
+    select 
+    count(*) as nb_commission,
+    sum(total_commission) as total_commission,
+    anne,
+    mois
+    from v_revenu_mensuel_details
+        group by date_commission, mois, anne
+        order by mois, anne; 
 
 -- statistique global
 -- total annonce / marque
