@@ -1,61 +1,57 @@
-dans ce cas on a un view sql
-@Entity
-@Table(name = "v_details_annonce", schema = "public", catalog = "voiture")
-public class DetailsAnnonce {
-    
-}
-
-on cree simplement un repository et c'es tout
-exemple
-import com.demo.voiture.models.DetailsAnnonce;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface DetailsAnnonceRepository extends JpaRepository<DetailsAnnonce, String> {
-}
-
-j'ai dis seulement les repositories
-
-generer moi des repositories pour ces classes
-@Entity
-@Table(name = "v_details_fiche_techniques", schema = "public", catalog = "voiture")
-public class DetailsFicheTechniques {
-
-}
-
-@Entity
-@Table(name = "v_details_voiture", schema = "public", catalog = "voiture")
-public class DetailsVoiture {
-
-}
-
-@Entity
-@Table(name = "v_voiture_categorie", schema = "public", catalog = "voiture")
-public class DetailsVoitureCategorie {
-
-}
-
-@Entity
-@Table(name = "voiture_categorie", schema = "public", catalog = "voiture")
-public class VoitureCategorie {
-
+je suis nouveau en mongoDb, c'est aujourd'hui que je ferai mongoDb pour la premiere fois
+comment creer un database en mongoDb, je suis en mongosh
+puis comment creer une table ou collection je ne sais pas comme ceci
+Conversation:
+{ id: 123
+  participants: ['john', 'marry'],
 }
 
 
-@Entity
-@Table(name = "favoris_user_annonce", schema = "public", catalog = "voiture")
-public class FavorisUserAnnonce {
+Message:
+{ sender: 'john', 
+  content: 'howdy', 
+  time_created: new Date(),
+  converstationId: 123
+},
+{ sender: 'marry', 
+  content: 'good u', 
+  time_created: new Date(),
+  converstationId: 123 
+},
 
+
+// Insérer la valeur initiale de l'auto-incrémentation
+db.ConversationsSequence.insertOne({
+  sequence_value: 1
+});
+
+// Fonction pour obtenir et incrémenter la valeur de l'auto-incrémentation
+function getNextSequenceValue(sequenceName) {
+  var sequenceDocument = db.ConversationsSequence.findAndModify({
+    query: { _id: sequenceName },
+    update: { $inc: { sequence_value: 1 } },
+    new: true
+  });
+
+  return sequenceDocument.sequence_value;
 }
 
-
-@Entity
-@Table(name = "param_commission", schema = "public", catalog = "voiture")
-public class ParamCommission {
-
-}
-
-@Entity
-@Table(name = "v_voiture_marque", schema = "public", catalog = "voiture")
-public class VoitureMarque { 
-
-}
+db.createCollection("Conversations", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["participants"],
+      properties: {
+        id: {
+          bsonType: "long",  // Correction : Utiliser "long" pour l'identifiant de la conversation
+          description: "ID de la conversation"
+          default : getNextSequenceValue("conversationIdSequence"),
+        },
+        participants: {
+          bsonType: "array",
+          description: "Participants de la conversation"
+        }
+      }
+    }
+  }
+});

@@ -5,6 +5,9 @@ import com.demo.voiture.models.Retour;
 import com.demo.voiture.services.AnnonceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/annonce")
@@ -68,6 +71,17 @@ public class AnnonceController {
     public Retour listvendu() {
         return annonceService.listVendu();
     }
+
+    @GetMapping("/search/{motcle}")
+    public Retour seacrh(@PathVariable String motcle) {
+        return annonceService.listMotCle(motcle);
+    }
+
+    @GetMapping("/search")
+    public Retour seacrh() {
+        return annonceService.listMotCle();
+    }
+    
 
 
 

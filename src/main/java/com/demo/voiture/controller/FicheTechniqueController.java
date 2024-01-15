@@ -20,12 +20,12 @@ public class FicheTechniqueController {
 
     @GetMapping("")
     public Retour listFicheTechVoitures() {
-        return voitureService.findFicheTechnique(null);
+        return ficheTechniqueService.find(null);
     }
 
     @GetMapping("/{id}")
     public Retour voitureFicheTechById(@PathVariable String id) {
-        return voitureService.findFicheTechnique(id);
+        return ficheTechniqueService.find(id);
     }
 
     @PostMapping("")

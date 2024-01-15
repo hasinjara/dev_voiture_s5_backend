@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface VoitureMarqueRepository extends JpaRepository<VoitureMarque, String> {
     List<VoitureMarque> findByIdMarque(String marque);
+    List<VoitureMarque> findByIdVoiture(String idVoiture);
 }

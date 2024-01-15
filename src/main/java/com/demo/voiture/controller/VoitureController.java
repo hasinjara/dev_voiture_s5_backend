@@ -39,4 +39,25 @@ public class VoitureController {
     public Retour delete(@PathVariable String id) {
         return voitureService.delete(id);
     }
+
+    @GetMapping("/marque")
+    public Retour listVoituresMarques() {
+        return voitureService.findMarque(null);
+    }
+
+    @GetMapping("marque/{idMarque}")
+    public Retour voitureByIdMarque(@PathVariable String idMarque) {
+        return voitureService.findMarque(idMarque);
+    }
+
+    @GetMapping("/fiche_tech")
+    public Retour listVoituresFicheTech() {
+        return voitureService.findFicheTechnique(null);
+    }
+
+    @GetMapping("fiche_tech/{id}")
+    public Retour voitureByIdFicheTech(@PathVariable String id) {
+        return voitureService.findFicheTechnique(id);
+    }
+
 }

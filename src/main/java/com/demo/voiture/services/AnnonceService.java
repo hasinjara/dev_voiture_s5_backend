@@ -1,6 +1,7 @@
 package com.demo.voiture.services;
 
 import com.demo.voiture.dto.AnnonceDto;
+import com.demo.voiture.dto.SearchAnnonceDto;
 import com.demo.voiture.models.Annonce;
 import com.demo.voiture.models.Commission;
 import com.demo.voiture.models.DetailsAnnonce;
@@ -16,6 +17,9 @@ import com.demo.voiture.repositories.DetailsVoitureCategorieRepository;
 import com.demo.voiture.repositories.ParamCommissionRepository;
 import com.demo.voiture.repositories.VoitureConfigureRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,6 +38,10 @@ public class AnnonceService {
     private final VoitureConfigureRepository voitureConfigureRepository;
     private final ParamCommissionRepository paramCommissionRepository;
     private final CommissionRepository commissionRepository;
+
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public Retour getDetailsAnnonce(String id) {
         try {
@@ -182,6 +190,73 @@ public class AnnonceService {
 
             return new Retour("aucun","Annonce vendu ID"+id,null);
          } catch (Exception e) {
+            // TODO: handle exception
+            return new Retour(e.getMessage(), null);
+        }
+    }
+
+    void verifySearchAnnonce(SearchAnnonceDto searchAnnonceDto) throws Exception {
+        try {
+            boolean exception = false;
+            if(searchAnnonceDto.getKilometrage() != null) {
+                if(searchAnnonceDto.getKilometrage().getMax() == null || searchAnnonceDto.getKilometrage().getMin()== null) {
+                    throw new Exception("Champ Kilimetrage Obligatoire sur max et min");
+                }
+            }
+            if(searchAnnonceDto.getEtatVoiture() !=  null) {
+                if(searchAnnonceDto.getEtatVoiture().getMax() == null && searchAnnonceDto.getEtatVoiture().getMin()== null) {
+                    throw new Exception("Champ Etat Voiture Obligatoire sur max et min");
+                }
+            }
+            if(searchAnnonceDto.getPrixVente() !=  null) {
+                if(searchAnnonceDto.getPrixVente().getMax() == null && searchAnnonceDto.getPrixVente().getMin()== null) {
+                    throw new Exception("Champ Prix vente Voiture Obligatoire sur max et min");
+                }
+            }
+
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw e;
+        }
+    }
+
+    public Retour listMotCle(SearchAnnonceDto searchAnnonceDto) {
+        try {
+            verifySearchAnnonce(searchAnnonceDto);
+            String sql = "SELECT * from v_annonce_vendu";
+            String between_km = "";
+            String where = " where ";
+            boolean change = false;
+            if(searchAnnonceDto.getKilometrage() != null) {
+                change = true;
+                between_km = " kilometrage between "
+                                +searchAnnonceDto.getKilometrage().getMin() + " and "+
+                                searchAnnonceDto.getKilometrage().getMax();
+            }
+            Query query = entityManager.createNativeQuery(sql, DetailsAnnonce.class);
+            return new Retour(query.getResultList());
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new Retour(e.getMessage(), null);
+        }
+    }
+
+    public Retour listMotCle() {
+        try {
+            String sql = "SELECT * from v_annonce_vendu";
+            Query query = entityManager.createNativeQuery(sql, DetailsAnnonce.class);
+            return new Retour(query.getResultList());
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new Retour(e.getMessage(), null);
+        }
+    }
+
+    public Retour listMotCle(String motCle) {
+        try {
+            return new Retour(detailsAnnonceRepository.findMotCle(motCle));
+        } catch (Exception e) {
             // TODO: handle exception
             return new Retour(e.getMessage(), null);
         }

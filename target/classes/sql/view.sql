@@ -267,3 +267,29 @@ create or replace view v_stat_categorie_global as
         order by nb_annonce DESC;
 
 
+
+select * from v_annonce_vendu
+    where 
+    kilometrage::text ilike '%m%'
+    or etat_voiture::text ilike '%m%'
+    or description ilike '%m%'
+    or prix_vente::text ilike '%m%'
+    or date_annonce::text ilike '%m%'
+    or nom_modele ilike '%m%'
+    or anne_sortie::text ilike '%m%'
+    or marque ilike '%m%'
+    or categorie ilike '%m%'
+    or energie ilike '%m%'
+    or boite ilike '%m%'
+    or moteur ilike '%m%'
+    or litre_moteur::text ilike '%m%'
+    or consommation::text ilike '%m%'
+    or nb_vitesse::text ilike '%m%'
+    or nb_place::text ilike '%m%'
+    or nb_porte::text ilike '%m%'
+    or longueur::text ilike '%m%'
+    or poids::text ilike '%m%'
+    or nom ilike '%m%%'
+    or prenom ilike '%m%';
+
+

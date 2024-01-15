@@ -1,9 +1,12 @@
 package com.demo.voiture.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.demo.voiture.dto.FicheTechniqueDto;
 import com.demo.voiture.models.FicheTechnique;
+import com.demo.voiture.models.Marque;
 import com.demo.voiture.models.Retour;
 import com.demo.voiture.repositories.FicheTechniqueRepository;
 
@@ -15,7 +18,22 @@ public class FicheTechniqueService {
     
     private final FicheTechniqueRepository ficheTechniqueRepository;
 
-     public Retour create(FicheTechniqueDto ficheTechniqueDto) {
+
+    public Retour find(String id) {
+        try {
+            if (id == null) {
+                List<FicheTechnique> all = ficheTechniqueRepository.findAll();
+                return new Retour(all);
+            } else {
+                FicheTechnique ficheTechnique = ficheTechniqueRepository.findById(id).orElse(null);
+                return new Retour(ficheTechnique);
+            }
+        } catch (Exception e) {
+            return new Retour(e.getMessage(), "Failed", null);
+        }
+    }
+
+    public Retour create(FicheTechniqueDto ficheTechniqueDto) {
         try {
             FicheTechnique ficheTechnique = new FicheTechnique(ficheTechniqueDto);
             return new Retour( ficheTechniqueRepository.save(ficheTechnique) );

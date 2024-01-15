@@ -11,6 +11,7 @@ import com.demo.voiture.models.DetailsVoitureCategorie;
 import com.demo.voiture.models.Retour;
 import com.demo.voiture.models.Voiture;
 import com.demo.voiture.models.VoitureCategorie;
+import com.demo.voiture.models.VoitureMarque;
 import com.demo.voiture.repositories.DetailsFicheTechniquesRepository;
 import com.demo.voiture.repositories.DetailsVoitureCategorieRepository;
 import com.demo.voiture.repositories.DetailsVoitureRepository;
@@ -42,6 +43,21 @@ public class VoitureService {
             } else {
                 List<DetailsVoitureCategorie>  voitureCategorie = detailsVoitureCategorieRepository.findByIdVoiture(id);
                 return new Retour(voitureCategorie);
+            }
+        } catch (Exception e) {
+            return new Retour(e.getMessage(), "Failed", null);
+        }
+    }
+
+
+    public Retour findMarque(String id) {
+        try {
+            if (id == null) {
+                List<VoitureMarque> all =  voitureMarqueRepository.findAll();
+                return new Retour(all);
+            } else {
+                List<VoitureMarque >  marques  = voitureMarqueRepository.findByIdMarque(id);
+                return new Retour(marques );
             }
         } catch (Exception e) {
             return new Retour(e.getMessage(), "Failed", null);
