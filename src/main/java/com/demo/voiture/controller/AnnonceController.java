@@ -26,7 +26,7 @@ public class AnnonceController {
         return annonceService.getDetailsAnnonce(id);
     }
 
-    @PostMapping()
+    @PostMapping("")
     public Retour creer(@RequestBody AnnonceDto annonceDto) {
         return  annonceService.creer(annonceDto); 
     }
@@ -41,7 +41,7 @@ public class AnnonceController {
         return  annonceService.supprimer(id);
     }
 
-    @GetMapping("/validation/{id}")
+    @PutMapping("/akondro/{id}")
     public Retour valider(@PathVariable String id) {
         return annonceService.valider(id);
     }
