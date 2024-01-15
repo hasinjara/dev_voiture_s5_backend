@@ -41,22 +41,6 @@ public class AnnonceController {
         return  annonceService.supprimer(id);
     }
 
-    @PutMapping("/akondro/{id}")
-    public Retour valider(@PathVariable String id) {
-        return annonceService.valider(id);
-    }
-
-    @PutMapping("/refuser/{id}")
-    public Retour refuser(@PathVariable String id) {
-        return annonceService.refuser(id);
-    }
-
-    @PutMapping("/vendre/{id}")
-    public Retour vendre(@PathVariable String id) {
-        return annonceService.vendre(id);
-    }
-
-
     @GetMapping("/valider")
     public Retour listvalide() {
         return annonceService.listValide();
