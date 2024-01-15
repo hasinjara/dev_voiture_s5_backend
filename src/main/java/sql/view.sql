@@ -196,24 +196,45 @@ create or replace view v_stat_vendeur_mensuel as
             order by mois, anne;           
 
 -- nb user inscrits / mois
-create or replace view v_users as
+create or replace view v_users_details as
     select
     count(*) as nb_users,
         EXTRACT(Year FROM date_inscription) as anne,
-        EXTRACT(month FROM date_inscription) as mois
+        EXTRACT(month FROM date_inscription) as mois,
+        EXTRACT(day FROM date_inscription) as jour
     from users
     where role = 'ROLE_USER' 
-        group by date_inscription, mois, anne
-        order by mois, anne;
+        group by date_inscription, mois, anne, jour
+        order by jour,mois, anne;
+
+create or replace view v_users as
+    select
+    sum(nb_users)::bigint as nb_users,
+        anne,
+        mois
+    from v_users_details
+        group by mois, anne
+        order by mois, anne;        
 
 -- nb annonce valide
-create or replace view v_annonce_mois as 
+create or replace view v_annonce_mois_details as 
     select 
     count(*) as nb_annonce,
     EXTRACT(Year FROM date_annonce) as anne,
-    EXTRACT(month FROM date_annonce) as mois
+    EXTRACT(month FROM date_annonce) as mois,
+    EXTRACT(day from date_annonce) as jour
     from annonce
-        group by date_annonce, mois, anne
+        where etat >= 20
+        group by date_annonce, mois, anne, jour
+        order by mois, anne, jour;    
+
+create or replace view v_annonce_mois as 
+    select 
+    sum(nb_annonce)::bigint as nb_annonce,
+    anne,
+    mois
+    from v_annonce_mois_details
+        group by mois, anne
         order by mois, anne;
 
 -- revenu mensuel
@@ -231,12 +252,12 @@ create or replace view v_revenu_mensuel_details as
 
 create or replace view v_revenu_mensuel as 
     select 
-    count(*) as nb_commission,
+    sum(nb_commission)::bigint as nb_commission,
     sum(total_commission) as total_commission,
     anne,
     mois
     from v_revenu_mensuel_details
-        group by date_commission, mois, anne
+        group by mois, anne
         order by mois, anne; 
 
 -- statistique global
