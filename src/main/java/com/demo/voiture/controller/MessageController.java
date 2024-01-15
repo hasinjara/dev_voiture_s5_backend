@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.voiture.dto.MessageDto;
+import com.demo.voiture.dto.MessageUserDto;
 import com.demo.voiture.models.Marque;
 import com.demo.voiture.models.Retour;
 import com.demo.voiture.models.message.Conversation;
@@ -47,10 +48,8 @@ public class MessageController {
     }
 
     @GetMapping("/user")
-    public Retour user_message(@RequestBody MessageDto messageDto) {
+    public Retour user_message(@RequestBody MessageUserDto messageDto) {
         return messageService.messages(messageDto);
     }
-
-    
     
 }

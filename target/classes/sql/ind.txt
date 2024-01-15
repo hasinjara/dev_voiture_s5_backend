@@ -1,57 +1,22 @@
-je suis nouveau en mongoDb, c'est aujourd'hui que je ferai mongoDb pour la premiere fois
-comment creer un database en mongoDb, je suis en mongosh
-puis comment creer une table ou collection je ne sais pas comme ceci
-Conversation:
-{ id: 123
-  participants: ['john', 'marry'],
+maka conversation na discution rehetra ne User
+Get
+/message/conversation/idUser
+
+mandefa message
+Post
+/message/envoyer
+{
+    "conversationId":"65a54d0e2c43dc023cd0b83a",
+    "sender":"U2",
+    "content":"hey"
 }
 
+le conversationId tsy maintsy hay
 
-Message:
-{ sender: 'john', 
-  content: 'howdy', 
-  time_created: new Date(),
-  converstationId: 123
-},
-{ sender: 'marry', 
-  content: 'good u', 
-  time_created: new Date(),
-  converstationId: 123 
-},
-
-
-// Insérer la valeur initiale de l'auto-incrémentation
-db.ConversationsSequence.insertOne({
-  sequence_value: 1
-});
-
-// Fonction pour obtenir et incrémenter la valeur de l'auto-incrémentation
-function getNextSequenceValue(sequenceName) {
-  var sequenceDocument = db.ConversationsSequence.findAndModify({
-    query: { _id: sequenceName },
-    update: { $inc: { sequence_value: 1 } },
-    new: true
-  });
-
-  return sequenceDocument.sequence_value;
+maka message amina User
+Get
+/message/User
+{
+    "conversationId":"65a54d0e2c43dc023cd0b83a",
+    "sender":"U2"
 }
-
-db.createCollection("Conversations", {
-  validator: {
-    $jsonSchema: {
-      bsonType: "object",
-      required: ["participants"],
-      properties: {
-        id: {
-          bsonType: "long",  // Correction : Utiliser "long" pour l'identifiant de la conversation
-          description: "ID de la conversation"
-          default : getNextSequenceValue("conversationIdSequence"),
-        },
-        participants: {
-          bsonType: "array",
-          description: "Participants de la conversation"
-        }
-      }
-    }
-  }
-});

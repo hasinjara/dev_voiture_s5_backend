@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.demo.voiture.dto.MessageDto;
+import com.demo.voiture.dto.MessageUserDto;
 import com.demo.voiture.models.Marque;
 import com.demo.voiture.models.Retour;
 import com.demo.voiture.models.message.Conversation;
@@ -71,7 +72,7 @@ public class MessageService {
         }
     }
 
-    public Retour messages(MessageDto messageDto){
+    public Retour messages(MessageUserDto messageDto){
         try {
             verifyIdUsers(messageDto.getSender(), messageDto.getConversationId());
             return new Retour(messageRepository.findByConversationIdOrderByTimeCreated(messageDto.getConversationId()) );
