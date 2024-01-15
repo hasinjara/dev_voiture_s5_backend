@@ -11,7 +11,7 @@ import com.demo.voiture.services.AnnonceService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/annonce")
+@RequestMapping("/valider")
 @RequiredArgsConstructor
 public class ValdationController {
 
