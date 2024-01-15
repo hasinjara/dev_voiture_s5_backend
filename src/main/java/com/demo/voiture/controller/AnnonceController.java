@@ -41,7 +41,7 @@ public class AnnonceController {
         return  annonceService.supprimer(id);
     }
 
-    @PutMapping("/valider/{id}")
+    @PutMapping("/validation/{id}")
     public Retour valider(@PathVariable String id) {
         return annonceService.valider(id);
     }
