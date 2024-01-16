@@ -103,6 +103,15 @@ CREATE TABLE annonce(
    PRIMARY KEY (id_annonce)
 );
 
+create sequence seq_annonce_photo increment by 1 minvalue 1;
+create table annonce_photo (
+   id_annonce_photo varchar default 'URL'||nextval('seq_annonce_photo'),
+   id_annonce varchar not null,
+   url_photo text not null,
+   foreign key (id_annonce) references annonce(id_annonce),
+   primary key (id_annonce_photo)
+);
+
 
 CREATE TABLE param_commission(
    marge_commission double precision
