@@ -1,22 +1,4 @@
-maka conversation na discution rehetra ne User
-Get
-/message/conversation/idUser
-
-mandefa message
-Post
-/message/envoyer
-{
-    "conversationId":"65a54d0e2c43dc023cd0b83a",
-    "sender":"U2",
-    "content":"hey"
-}
-
-le conversationId tsy maintsy hay
-
-maka message amina User
-Get
-/message/User
-{
-    "conversationId":"65a54d0e2c43dc023cd0b83a",
-    "sender":"U2"
-}
+to do 
+1- vue user_favoris_annonce [1- mes annonces user, 2 favoris user]
+2- recherche multi critere
+3- url photo immage

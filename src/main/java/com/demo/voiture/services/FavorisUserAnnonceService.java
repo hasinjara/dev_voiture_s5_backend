@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import com.demo.voiture.models.Annonce;
 import com.demo.voiture.models.FavorisUserAnnonce;
 import com.demo.voiture.models.Retour;
+import com.demo.voiture.models.VFavorisUserAnnonce;
 import com.demo.voiture.repositories.AnnonceRepository;
 import com.demo.voiture.repositories.FavorisUserAnnonceRepository;
+import com.demo.voiture.repositories.VFavorisUserAnnonceRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,14 +19,15 @@ import lombok.RequiredArgsConstructor;
 public class FavorisUserAnnonceService {
     private final FavorisUserAnnonceRepository favorisUserAnnonceRepository;
     private final AnnonceRepository annonceRepository;
+    private final VFavorisUserAnnonceRepository vFavorisUserAnnonceRepository;
 
     public Retour find(String idUsers) {
         try {
             if (idUsers == null) {
-                List<FavorisUserAnnonce> all = favorisUserAnnonceRepository.findAll();
+                List<VFavorisUserAnnonce> all = vFavorisUserAnnonceRepository.findAll();
                 return new Retour(all);
             } else {
-                List<FavorisUserAnnonce> all = favorisUserAnnonceRepository.findByIdUsers(idUsers);
+                List<VFavorisUserAnnonce> all = vFavorisUserAnnonceRepository.findByIdUsers(idUsers);
                 return new Retour(all);
             }
         } catch (Exception e) {

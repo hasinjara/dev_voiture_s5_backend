@@ -82,6 +82,16 @@ create or replace view v_voiture_configure as
         group by voiture.id_voiture, voiture.nom_modele
         order by voiture.id_voiture;
 
+-- annonce favoris user
+create or replace view v_favoris_user_annonce as
+    select 
+    id_favoris_user_annonce,
+    v_annonce_valide.*
+    from
+        favoris_user_annonce
+        join v_annonce_valide on favoris_user_annonce.id_annonce = v_annonce_valide.id_annonce;
+
+
 -- insert into commission (id_annonce, marge, prix_vente, commission) 
 -- values ('AN2', 10, 5000,500); 
 

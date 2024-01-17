@@ -3,6 +3,7 @@ package com.demo.voiture.models;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.sql.Date;
@@ -11,6 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "v_favoris_user_annonce", schema = "public", catalog = "voiture")
 public class VFavorisUserAnnonce {
+    @Id
     @Basic
     @Column(name = "id_favoris_user_annonce", nullable = true, length = -1)
     private String idFavorisUserAnnonce;
