@@ -1,6 +1,7 @@
 package com.demo.voiture.services;
 
 import com.demo.voiture.dto.AnnonceDto;
+import com.demo.voiture.dto.DetailsAnnonceDto;
 import com.demo.voiture.dto.SearchAnnonceDto;
 import com.demo.voiture.models.Annonce;
 import com.demo.voiture.models.AnnoncePhoto;
@@ -56,11 +57,23 @@ public class AnnonceService {
         try {
             if(id == null) {
                 List<DetailsAnnonce> all = detailsAnnonceRepository.findAll();
-                return  new Retour(all);
+                List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+                List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
+                DetailsAnnonceDto add = new DetailsAnnonceDto();
+                for (DetailsAnnonce annonce : all) {
+                    photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                    add = new DetailsAnnonceDto(annonce, photos);
+                    full_details.add(
+                        add
+                    );
+                }
+                return  new Retour(full_details);
             }
             else {
                 DetailsAnnonce detail = detailsAnnonceRepository.findById(id).orElse(null);
-                return new Retour(detail);
+                List<AnnoncePhoto> photos = annnoncePhotoRepository.findByIdAnnonce(id);
+                DetailsAnnonceDto full_details = new DetailsAnnonceDto(detail, photos);
+                return new Retour(full_details);
             }
 
         }
@@ -74,7 +87,17 @@ public class AnnonceService {
         try {
             User u = userService.getByToken();
             List<DetailsAnnonce> all = detailsAnnonceRepository.findByIdUsers(u.getIdUsers());
-            return  new Retour(all);
+            List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+            List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
+            DetailsAnnonceDto add = new DetailsAnnonceDto();
+            for (DetailsAnnonce annonce : all) {
+                photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                add = new DetailsAnnonceDto(annonce, photos);
+                full_details.add(
+                    add
+                );
+            }
+            return  new Retour(full_details);
         }
         catch (Exception e) {
             return  new Retour(e.getMessage(), "Failed", null);
@@ -164,7 +187,7 @@ public class AnnonceService {
             Object[] annonceDetails = new Object[2];
             annonceDetails[0] = annonceRepository.save(annonce);
             annonceDetails[1] = insertUrlPhoto(annonceDto.getUrl_photo(), annonce.getIdAnnonce());
-            return new Retour(  );
+            return new Retour( annonceDetails );
         } catch (Exception e) {
             return new Retour(e.getMessage(), null);
         }
@@ -343,7 +366,20 @@ public class AnnonceService {
             sql = sql + where + between_etat + between_km + between_prix + between_conso + id_boite + id_energie + id_categorie +id_marque + id_voiture;
 
             Query query = entityManager.createNativeQuery(sql, DetailsAnnonce.class);
-            return new Retour(query.getResultList());
+            
+            List<DetailsAnnonce> all = query.getResultList();
+            List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+            List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
+            DetailsAnnonceDto add = new DetailsAnnonceDto();
+            for (DetailsAnnonce annonce : all) {
+                photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                add = new DetailsAnnonceDto(annonce, photos);
+                full_details.add(
+                    add
+                );
+            }
+
+            return new Retour(full_details);
         } catch (Exception e) {
             // TODO: handle exception
             return new Retour(e.getMessage(), null);
@@ -352,9 +388,20 @@ public class AnnonceService {
 
     public Retour listMotCle() {
         try {
-            String sql = "SELECT * from v_annonce_vendu";
+            String sql = "SELECT * from v_annonce_valide";
             Query query = entityManager.createNativeQuery(sql, DetailsAnnonce.class);
-            return new Retour(query.getResultList());
+            List<DetailsAnnonce> all = query.getResultList();
+            List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+            List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
+            DetailsAnnonceDto add = new DetailsAnnonceDto();
+            for (DetailsAnnonce annonce : all) {
+                photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                add = new DetailsAnnonceDto(annonce, photos);
+                full_details.add(
+                    add
+                );
+            }
+            return new Retour(full_details);
         } catch (Exception e) {
             // TODO: handle exception
             return new Retour(e.getMessage(), null);
@@ -363,7 +410,18 @@ public class AnnonceService {
 
     public Retour listMotCle(String motCle) {
         try {
-            return new Retour(detailsAnnonceRepository.findMotCle(motCle));
+            List<DetailsAnnonce> all = detailsAnnonceRepository.findMotCle(motCle);
+            List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+            List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
+            DetailsAnnonceDto add = new DetailsAnnonceDto();
+            for (DetailsAnnonce annonce : all) {
+                photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                add = new DetailsAnnonceDto(annonce, photos);
+                full_details.add(
+                    add
+                );
+            }
+            return new Retour(full_details);
         } catch (Exception e) {
             // TODO: handle exception
             return new Retour(e.getMessage(), null);
@@ -372,7 +430,18 @@ public class AnnonceService {
 
     public Retour listValide() {
         try {
-            return new Retour(detailsAnnonceRepository.findValide());
+            List<DetailsAnnonce> all = detailsAnnonceRepository.findValide();
+            List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+            List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
+            DetailsAnnonceDto add = new DetailsAnnonceDto();
+            for (DetailsAnnonce annonce : all) {
+                photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                add = new DetailsAnnonceDto(annonce, photos);
+                full_details.add(
+                    add
+                );
+            }
+            return new Retour(full_details);
         } catch (Exception e) {
             // TODO: handle exception
             return new Retour(e.getMessage(), null);
@@ -382,7 +451,18 @@ public class AnnonceService {
 
     public Retour listRefuse() {
         try {
-            return new Retour(detailsAnnonceRepository.findRefuse());
+            List<DetailsAnnonce> all = detailsAnnonceRepository.findRefuse();
+            List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+            List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
+            DetailsAnnonceDto add = new DetailsAnnonceDto();
+            for (DetailsAnnonce annonce : all) {
+                photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                add = new DetailsAnnonceDto(annonce, photos);
+                full_details.add(
+                    add
+                );
+            }
+            return new Retour(full_details);
         } catch (Exception e) {
             // TODO: handle exception
             return new Retour(e.getMessage(), null);
@@ -391,7 +471,18 @@ public class AnnonceService {
 
     public Retour listVendu() {
         try {
-            return new Retour(detailsAnnonceRepository.findVendu());
+            List<DetailsAnnonce> all = detailsAnnonceRepository.findVendu();
+            List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+            List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
+            DetailsAnnonceDto add = new DetailsAnnonceDto();
+            for (DetailsAnnonce annonce : all) {
+                photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                add = new DetailsAnnonceDto(annonce, photos);
+                full_details.add(
+                    add
+                );
+            }
+            return new Retour(full_details);
         } catch (Exception e) {
             // TODO: handle exception
             return new Retour(e.getMessage(), null);
