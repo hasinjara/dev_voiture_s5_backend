@@ -33,6 +33,12 @@ public class FavorisUserAnnonceController {
         return favorisUserAnnonceService.find(null);
     }
 
+    @GetMapping("/is_favoris/{idAnnonce}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Retour testUsers(@PathVariable String idAnnonce) {
+        return favorisUserAnnonceService.testFavoris(idAnnonce);
+    }
+
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_USER')")
     public Retour findByIdUsers() {

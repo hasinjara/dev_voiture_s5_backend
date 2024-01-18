@@ -54,6 +54,17 @@ public class FavorisUserAnnonceService {
         }
     }
 
+    public Retour testFavoris(String idAnnonce) {
+        try {
+            User u = userService.getByToken();
+            boolean val = favorisUserAnnonceRepository.existsByIdUsersAndIdAnnonce(u.getIdUsers(), idAnnonce);
+            return new Retour(val);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new Retour(e.getMessage(), null);
+        }
+    }
+
     public Retour create(FavorisUserAnnonce favorisUserAnnonce) {
         try {
             User u = userService.getByToken();
