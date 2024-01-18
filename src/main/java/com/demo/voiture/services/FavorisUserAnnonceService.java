@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 import com.demo.voiture.models.Annonce;
 import com.demo.voiture.models.FavorisUserAnnonce;
 import com.demo.voiture.models.Retour;
+import com.demo.voiture.models.User;
 import com.demo.voiture.models.VFavorisUserAnnonce;
 import com.demo.voiture.repositories.AnnonceRepository;
 import com.demo.voiture.repositories.FavorisUserAnnonceRepository;
 import com.demo.voiture.repositories.VFavorisUserAnnonceRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,6 +22,7 @@ public class FavorisUserAnnonceService {
     private final FavorisUserAnnonceRepository favorisUserAnnonceRepository;
     private final AnnonceRepository annonceRepository;
     private final VFavorisUserAnnonceRepository vFavorisUserAnnonceRepository;
+    private final UserService userService;
 
     public Retour find(String idUsers) {
         try {
@@ -53,6 +56,8 @@ public class FavorisUserAnnonceService {
 
     public Retour create(FavorisUserAnnonce favorisUserAnnonce) {
         try {
+            User u = userService.getByToken();
+            favorisUserAnnonce.setIdUsers(u.getIdUsers());
             verifyExistence(favorisUserAnnonce);
             return new Retour( favorisUserAnnonceRepository.save(favorisUserAnnonce) );
         } catch (Exception e) {
@@ -60,8 +65,25 @@ public class FavorisUserAnnonceService {
         }
     }
 
+    void verifyDelete(String id) throws Exception {
+        try {
+            User u = userService.getByToken();
+            FavorisUserAnnonce fau = favorisUserAnnonceRepository.findById(id).orElse(null);
+            if(fau == null) {
+                throw new Exception("ID Not found");
+            }
+            if(u.getIdUsers().compareTo(fau.getIdUsers())!= 0) {
+                throw new Exception("Cette favoris n'appartient pas a cette user");
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+    @Transactional
     public Retour delete(String id) {
         try {
+            verifyDelete(id);
             favorisUserAnnonceRepository.deleteById(id);
             return new Retour("Favoris User supprime id "+id) ;
         } catch (Exception e) {
@@ -70,12 +92,15 @@ public class FavorisUserAnnonceService {
         }
     }
 
+    @Transactional
     public Retour delete(FavorisUserAnnonce favorisUserAnnonce) {
         try {
-            favorisUserAnnonceRepository.deleteByIdAnnonceAndIdUsers(favorisUserAnnonce.getIdAnnonce(), favorisUserAnnonce.getIdUsers());
+            User u = userService.getByToken();
+            favorisUserAnnonceRepository.deleteByIdAnnonceAndIdUsers(favorisUserAnnonce.getIdAnnonce(), u.getIdUsers());
             return new Retour("Favoris User supprime idUsers "+favorisUserAnnonce.getIdUsers() + " idAnnonce " + favorisUserAnnonce.getIdAnnonce()) ;
         } catch (Exception e) {
             // TODO: handle exception
+            e.printStackTrace();
             return new Retour(e.getMessage(), null);
         }
     }

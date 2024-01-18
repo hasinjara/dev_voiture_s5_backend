@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MessageDto {
     String conversationId;
-    String sender;
     String content;
 }

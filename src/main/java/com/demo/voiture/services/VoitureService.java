@@ -145,12 +145,12 @@ public class VoitureService {
                 update.setNomModele(voiture.getNomModele());
                 update.setAnneSortie(voiture.getAnneSortie());
                 update.setIdMarque(voiture.getIdMarque());
-                voitureRepository.save(update);
+                return new Retour(voitureRepository.save(update));
             }
             else {
                 return new Retour("Id "+ id + " not found",null);
             }
-            return new Retour(null);
+            
         } catch (Exception e) {
             return new Retour(e.getMessage(), null);
         }

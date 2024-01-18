@@ -12,5 +12,4 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MessageUserDto {
     String conversationId;
-    String sender;
 }

@@ -13,6 +13,7 @@ public class SearchAnnonceDto {
     KilometrageDto kilometrage;
     PrixVenteDto prixVente;
     EtatVoitureDto etatVoiture;
+    ConsommationDto consommation;
     String idCategorie;
     String idVoiture;
     String idMarque;

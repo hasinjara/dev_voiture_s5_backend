@@ -10,5 +10,6 @@ public interface ConversationRepository extends MongoRepository<Conversation, St
     List<Conversation> findByParticipants(List<String> participants);
     List<Conversation> findByParticipantsContains(String participant);
     List<Conversation> findByIdParticipantsContains(String participant);
+    Conversation findByIdParticipants(List<String> idParticipants);
     
 }

@@ -61,7 +61,8 @@ create or replace view v_details_annonce as
         join v_voiture_marque on annonce.id_voiture = v_voiture_marque.id_voiture
         join categorie on annonce.id_categorie = categorie.id_categorie
         join v_details_fiche_techniques on annonce.id_fiche_technique = v_details_fiche_techniques.id_fiche_technique
-        join users on annonce.id_users = users.id_users;
+        join users on annonce.id_users = users.id_users
+        order by date_annonce DESC;
 
 create or replace view v_annonce_refuse as
     select * from v_details_annonce where etat = 10;
@@ -71,6 +72,30 @@ create or replace view v_annonce_valide as
 
 create or replace view v_annonce_vendu as
     select * from v_details_annonce where etat = 30;
+
+create or replace view v_annonce_prix_min as 
+    select 
+    annonce.*,
+    v_voiture_marque.nom_modele, 
+    v_voiture_marque.anne_sortie,
+    v_voiture_marque.id_marque, v_voiture_marque.marque,
+    categorie.categorie,
+    v_details_fiche_techniques.id_energie, v_details_fiche_techniques.energie,
+    v_details_fiche_techniques.id_boite, v_details_fiche_techniques.boite,
+    v_details_fiche_techniques.moteur,  v_details_fiche_techniques.litre_moteur,
+    v_details_fiche_techniques.consommation, v_details_fiche_techniques.puissance,
+    v_details_fiche_techniques.nb_vitesse, v_details_fiche_techniques.nb_place,
+    v_details_fiche_techniques.nb_porte, v_details_fiche_techniques.longueur,
+    v_details_fiche_techniques.poids,
+    users.nom, users.prenom, users.mail
+    from
+        annonce
+        join v_voiture_marque on annonce.id_voiture = v_voiture_marque.id_voiture
+        join categorie on annonce.id_categorie = categorie.id_categorie
+        join v_details_fiche_techniques on annonce.id_fiche_technique = v_details_fiche_techniques.id_fiche_technique
+        join users on annonce.id_users = users.id_users
+        where  etat = 20  
+        order by prix_vente ASC, date_annonce DESC;
 
 create or replace view v_voiture_configure as
     select 

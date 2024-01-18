@@ -43,12 +43,13 @@ public class EnergieService {
             Energie update = energieRepository.findById(id).orElse(null);
             if (update != null) {
                 update.setEnergie(energie.getEnergie());
-                energieRepository.save(update);
+                
+                return new Retour(energieRepository.save(update));
             }
             else {
                 return new Retour("Id "+ id + " not found",null);
             }
-            return new Retour(null);
+          
         } catch (Exception e) {
             return new Retour(e.getMessage(), null);
         }

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -38,6 +39,27 @@ public class UserService {
         } catch (Exception e) {
             return new Retour(e.getMessage(), "Failed", null);
         }
+    }
+
+    public User null_user() {
+        return null;
+    }
+
+    public User findMail(String mail) {
+        User user = userRepository.findByMail(mail)
+                .orElse( null_user() );
+        return user;
+    }
+
+    public User getByToken() throws Exception {
+        try {
+            String mail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return findMail(mail);
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw e;
+        }
+        
     }
 
     public Retour findById(String id) {

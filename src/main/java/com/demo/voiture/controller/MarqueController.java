@@ -1,5 +1,6 @@
 package com.demo.voiture.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.demo.voiture.models.Marque;
@@ -25,16 +26,19 @@ public class MarqueController {
     }
 
     @PostMapping()
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Retour create(@RequestBody Marque marque) {
         return marqueService.create(marque);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Retour update(@PathVariable String id, @RequestBody Marque marqueDto) {
         return marqueService.update(id, marqueDto);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Retour delete(@PathVariable String id) {
         return marqueService.delete(id);
     }

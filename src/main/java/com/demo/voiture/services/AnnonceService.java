@@ -3,18 +3,22 @@ package com.demo.voiture.services;
 import com.demo.voiture.dto.AnnonceDto;
 import com.demo.voiture.dto.SearchAnnonceDto;
 import com.demo.voiture.models.Annonce;
+import com.demo.voiture.models.AnnoncePhoto;
 import com.demo.voiture.models.Commission;
 import com.demo.voiture.models.DetailsAnnonce;
 import com.demo.voiture.models.DetailsFicheTechniques;
 import com.demo.voiture.models.DetailsVoitureCategorie;
 import com.demo.voiture.models.ParamCommission;
 import com.demo.voiture.models.Retour;
+import com.demo.voiture.models.User;
+import com.demo.voiture.repositories.AnnnoncePhotoRepository;
 import com.demo.voiture.repositories.AnnonceRepository;
 import com.demo.voiture.repositories.CommissionRepository;
 import com.demo.voiture.repositories.DetailsAnnonceRepository;
 import com.demo.voiture.repositories.DetailsFicheTechniquesRepository;
 import com.demo.voiture.repositories.DetailsVoitureCategorieRepository;
 import com.demo.voiture.repositories.ParamCommissionRepository;
+import com.demo.voiture.repositories.UserRepository;
 import com.demo.voiture.repositories.VoitureConfigureRepository;
 
 import jakarta.persistence.EntityManager;
@@ -22,10 +26,13 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +45,8 @@ public class AnnonceService {
     private final VoitureConfigureRepository voitureConfigureRepository;
     private final ParamCommissionRepository paramCommissionRepository;
     private final CommissionRepository commissionRepository;
+    private final UserService userService;
+    private final AnnnoncePhotoRepository annnoncePhotoRepository;
 
 
     @PersistenceContext
@@ -54,6 +63,18 @@ public class AnnonceService {
                 return new Retour(detail);
             }
 
+        }
+        catch (Exception e) {
+            return  new Retour(e.getMessage(), "Failed", null);
+        }
+    }
+
+
+    public Retour getDetailsAnnonceIdusers() {
+        try {
+            User u = userService.getByToken();
+            List<DetailsAnnonce> all = detailsAnnonceRepository.findByIdUsers(u.getIdUsers());
+            return  new Retour(all);
         }
         catch (Exception e) {
             return  new Retour(e.getMessage(), "Failed", null);
@@ -102,13 +123,48 @@ public class AnnonceService {
         }
     }
 
+    void verifyIdUserAnnonce(Annonce a) throws Exception {
+        try {
+            User u = userService.getByToken();
+            if(a.getIdUsers().compareTo(u.getIdUsers()) != 0) {
+                throw new Exception("Cette annonce n'appartient pas a cette user");
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw e;
+        }
+    }
+
+    List<AnnoncePhoto> insertUrlPhoto(List<String> urls, String idAnnonce) throws Exception {
+        try {
+            List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+            AnnoncePhoto photo = new AnnoncePhoto();
+
+            for (String url : urls) {
+                photo = new AnnoncePhoto(idAnnonce, url);
+                photos.add( annnoncePhotoRepository.save(photo) );
+            }
+            return photos;
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw e;
+        }
+    }
+     
+
+    @Transactional
     public Retour creer(AnnonceDto annonceDto) {
         try {
             Annonce annonce = new Annonce(annonceDto);
             annonce.defaultColumn();
             verifyVoitureConfig(annonceDto);
             verifyCategAndFicheTech(annonceDto);
-            return new Retour( annonceRepository.save(annonce) );
+            User u = userService.getByToken();
+            annonce.setIdUsers(u.getIdUsers());
+            Object[] annonceDetails = new Object[2];
+            annonceDetails[0] = annonceRepository.save(annonce);
+            annonceDetails[1] = insertUrlPhoto(annonceDto.getUrl_photo(), annonce.getIdAnnonce());
+            return new Retour(  );
         } catch (Exception e) {
             return new Retour(e.getMessage(), null);
         }
@@ -117,6 +173,7 @@ public class AnnonceService {
     public Retour modifier(String id ,AnnonceDto annonceDto) {
         try {
             Annonce a = annonceRepository.findById(id).get();
+            verifyIdUserAnnonce(a);
             Annonce annonce = new Annonce(annonceDto);
             verifyCategAndFicheTech(annonceDto);
             a.setDescription(annonce.getDescription());
@@ -127,8 +184,8 @@ public class AnnonceService {
             a.setPrixVente(annonce.getPrixVente());
             a.setDescription(a.getDescription());
             a.setIdFicheTechnique(annonce.getIdFicheTechnique());
-            annonceRepository.save(a);
-            return new Retour( null );
+            
+            return new Retour("aucun", "Update reussi", annonceRepository.save(a) );
         } catch (Exception e) {
             return new Retour(e.getMessage(), null);
         }
@@ -174,6 +231,7 @@ public class AnnonceService {
         try {
             // controle annonce - change etat
             Annonce a = annonceRepository.findById(id).get();
+            verifyIdUserAnnonce(a);
             verifyEtatAnnonce(a);
             a.setEtat(30);
             annonceRepository.save(a);
@@ -200,17 +258,22 @@ public class AnnonceService {
             boolean exception = false;
             if(searchAnnonceDto.getKilometrage() != null) {
                 if(searchAnnonceDto.getKilometrage().getMax() == null || searchAnnonceDto.getKilometrage().getMin()== null) {
-                    throw new Exception("Champ Kilimetrage Obligatoire sur max et min");
+                    throw new Exception("Champ Kilimetrage Obligatoire sur max et min si selectione");
                 }
             }
             if(searchAnnonceDto.getEtatVoiture() !=  null) {
-                if(searchAnnonceDto.getEtatVoiture().getMax() == null && searchAnnonceDto.getEtatVoiture().getMin()== null) {
-                    throw new Exception("Champ Etat Voiture Obligatoire sur max et min");
+                if(searchAnnonceDto.getEtatVoiture().getMax() == null || searchAnnonceDto.getEtatVoiture().getMin()== null) {
+                    throw new Exception("Champ Etat Voiture Obligatoire sur max et min si selectione");
                 }
             }
             if(searchAnnonceDto.getPrixVente() !=  null) {
-                if(searchAnnonceDto.getPrixVente().getMax() == null && searchAnnonceDto.getPrixVente().getMin()== null) {
-                    throw new Exception("Champ Prix vente Voiture Obligatoire sur max et min");
+                if(searchAnnonceDto.getPrixVente().getMax() == null || searchAnnonceDto.getPrixVente().getMin()== null) {
+                    throw new Exception("Champ Prix vente Voiture Obligatoire sur max et selectione");
+                }
+            }
+            if(searchAnnonceDto.getConsommation() != null ) {
+                if(searchAnnonceDto.getConsommation().getMax() == null || searchAnnonceDto.getConsommation().getMin() == null) {
+                    throw new Exception("Champ Prix vente Voiture Obligatoire sur max et selectione");
                 }
             }
 
@@ -224,16 +287,61 @@ public class AnnonceService {
     public Retour listMotCle(SearchAnnonceDto searchAnnonceDto) {
         try {
             verifySearchAnnonce(searchAnnonceDto);
-            String sql = "SELECT * from v_annonce_vendu";
+            String sql = "SELECT * from v_annonce_valide";
             String between_km = "";
-            String where = " where ";
-            boolean change = false;
+            String between_prix = "";
+            String between_etat = "";
+            String between_conso = "";
+            String id_boite = "";
+            String id_energie = "";
+            String id_categorie = "";
+            String id_voiture = "";
+            String id_marque = "";
+            String where = " where 0=0 ";
+           
+            
+
             if(searchAnnonceDto.getKilometrage() != null) {
-                change = true;
-                between_km = " kilometrage between "
+                
+                between_km = " and kilometrage between "
                                 +searchAnnonceDto.getKilometrage().getMin() + " and "+
-                                searchAnnonceDto.getKilometrage().getMax();
+                                searchAnnonceDto.getKilometrage().getMax() + " ";
             }
+            if(searchAnnonceDto.getPrixVente() != null) {
+                
+                between_prix = " and prix_vente between "
+                                + searchAnnonceDto.getPrixVente().getMin() + " and "+   
+                                searchAnnonceDto.getPrixVente().getMax()+ " ";
+            }
+            if(searchAnnonceDto.getEtatVoiture() != null) {
+                
+                between_etat = " and etat_voiture between "
+                                + searchAnnonceDto.getEtatVoiture().getMin() + " and "+
+                                searchAnnonceDto.getEtatVoiture().getMax()+ " " ;
+            }
+            if(searchAnnonceDto.getConsommation() != null) {
+                between_conso = " and consommation between "
+                                + searchAnnonceDto.getConsommation().getMin() + " and "+
+                                searchAnnonceDto.getConsommation().getMax() + " ";
+            }
+            if(searchAnnonceDto.getIdBoite()!= null) {
+                id_boite =" and id_boite  ='"+searchAnnonceDto.getIdBoite()+"' ";
+            }
+            if(searchAnnonceDto.getIdVoiture()!= null) {
+                id_voiture = " and id_voiture ='"+searchAnnonceDto.getIdVoiture()+"' ";
+            }
+            if(searchAnnonceDto.getIdCategorie() != null) {
+                id_categorie = " and id_categorie ='"+searchAnnonceDto.getIdCategorie()+"' ";
+            }
+            if(searchAnnonceDto.getIdMarque() != null) {
+                id_marque = " and id_marque ='"+searchAnnonceDto.getIdMarque()+"' ";
+            }
+            if(searchAnnonceDto.getIdEnergie() != null) {
+                id_energie = " and id_energie ='"+searchAnnonceDto.getIdEnergie()+"' ";
+            }
+
+            sql = sql + where + between_etat + between_km + between_prix + between_conso + id_boite + id_energie + id_categorie +id_marque + id_voiture;
+
             Query query = entityManager.createNativeQuery(sql, DetailsAnnonce.class);
             return new Retour(query.getResultList());
         } catch (Exception e) {

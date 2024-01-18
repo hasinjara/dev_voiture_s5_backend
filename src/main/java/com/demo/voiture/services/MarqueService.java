@@ -61,12 +61,12 @@ public class MarqueService {
             Marque update = marqueRepository.findById(id).orElse(null);
             if (update != null) {
                 update.setMarque(marque.getMarque());
-                marqueRepository.save(update);
+                return new Retour(marqueRepository.save(update));
             }
             else {
                 return new Retour("Id "+ id + " not found",null);
             }
-            return new Retour(null);
+            
         } catch (Exception e) {
             return new Retour(e.getMessage(), null);
         }

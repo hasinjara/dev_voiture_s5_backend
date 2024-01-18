@@ -77,7 +77,6 @@ public class Annonce {
 
     public Annonce(AnnonceDto annonceDto) throws Exception {
         try {
-            this.setIdUsers(annonceDto.getIdUsers());
             this.setIdVoiture(annonceDto.getIdVoiture());
             this.setIdFicheTechnique(annonceDto.getIdFicheTechnique());
             this.setIdCategorie(annonceDto.getIdCategorie());

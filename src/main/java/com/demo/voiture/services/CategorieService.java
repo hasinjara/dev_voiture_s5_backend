@@ -42,12 +42,12 @@ public class CategorieService {
             Categorie update = categorieRepository.findById(id).orElse(null);
             if (update != null) {
                 update.setCategorie(categorie.getCategorie());
-                categorieRepository.save(update);
+                return new Retour(categorieRepository.save(update));
             }
             else {
                 return new Retour("Id "+ id + " not found",null);
             }
-            return new Retour(null);
+            
         } catch (Exception e) {
             return new Retour(e.getMessage(), null);
         }

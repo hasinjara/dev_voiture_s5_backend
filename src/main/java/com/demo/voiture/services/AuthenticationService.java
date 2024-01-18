@@ -51,7 +51,12 @@ public class AuthenticationService {
         user = userService.save(user);
         var jwt = jwtService.generateToken(user);
         JwtAuthenticationResponse token = JwtAuthenticationResponse.builder().token(jwt).build();
-        UserDto user_dto =  UserDto.builder().idUser(user.getIdUsers()).build();
+        UserDto user_dto =  UserDto.builder()
+                            .idUser(user.getIdUsers())
+                            .nom(user.getNom())
+                            .prenom(user.getPrenom())
+                            .mail(user.getMail())
+                            .build();
         Object[] response = new Object[2];
         response[0] = user_dto;
         response[1] = token;
@@ -77,7 +82,12 @@ public class AuthenticationService {
             //System.out.println("--===============================");
             return error_sigin();
         }
-        UserDto user_dto = UserDto.builder().idUser(user.getIdUsers()).build();
+        UserDto user_dto =  UserDto.builder()
+                            .idUser(user.getIdUsers())
+                            .nom(user.getNom())
+                            .prenom(user.getPrenom())
+                            .mail(user.getMail())
+                            .build();
         var jwt = jwtService.generateToken(user);
         JwtAuthenticationResponse token = JwtAuthenticationResponse.builder().token(jwt).build();
         Object[] response = new Object[2];

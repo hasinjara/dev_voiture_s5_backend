@@ -12,4 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDto {
     String idUser;
+    String nom;
+    String prenom;
+    String mail;
 }

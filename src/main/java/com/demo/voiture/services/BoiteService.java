@@ -45,8 +45,7 @@ public class BoiteService {
         try {
             Boite update = boiteRepository.findById(id).get();
             update.setBoite(boite.getBoite());
-            boiteRepository.save(update);
-            return new Retour( null );
+            return new Retour( "aucun","Update resussi",boiteRepository.save(update));
         } catch (Exception e) {
             return new Retour(e.getMessage(), null);
         }
