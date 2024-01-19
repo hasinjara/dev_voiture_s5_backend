@@ -11,6 +11,6 @@ public interface FavorisUserAnnonceRepository extends JpaRepository<FavorisUserA
     boolean existsByIdUsersAndIdAnnonce(String idUsers, String idAnnonce);
 
     void deleteByIdAnnonceAndIdUsers(String idAnnonce, String idUsers);
-
+    
     void deleteByIdAnnonce(String idAnnonce);
 }

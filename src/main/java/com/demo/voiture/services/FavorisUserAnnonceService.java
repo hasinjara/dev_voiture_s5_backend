@@ -30,7 +30,7 @@ public class FavorisUserAnnonceService {
                 List<VFavorisUserAnnonce> all = vFavorisUserAnnonceRepository.findAll();
                 return new Retour(all);
             } else {
-                List<VFavorisUserAnnonce> all = vFavorisUserAnnonceRepository.findByIdUsers(idUsers);
+                List<VFavorisUserAnnonce> all = vFavorisUserAnnonceRepository.findByIdUsersActuel(idUsers);
                 return new Retour(all);
             }
         } catch (Exception e) {

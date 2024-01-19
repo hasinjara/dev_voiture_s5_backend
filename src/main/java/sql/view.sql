@@ -111,7 +111,8 @@ create or replace view v_voiture_configure as
 create or replace view v_favoris_user_annonce as
     select 
     id_favoris_user_annonce,
-    v_annonce_valide.*
+    v_annonce_valide.*,
+    favoris_user_annonce.id_users as id_users_actuel
     from
         favoris_user_annonce
         join v_annonce_valide on favoris_user_annonce.id_annonce = v_annonce_valide.id_annonce;

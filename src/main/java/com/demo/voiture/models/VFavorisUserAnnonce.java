@@ -112,6 +112,9 @@ public class VFavorisUserAnnonce {
     @Basic
     @Column(name = "mail", nullable = true, length = -1)
     private String mail;
+    @Column(name = "id_users_actuel", nullable = true, length = -1)
+    @Basic
+    private String idUsersActuel;
 
     public String getIdFavorisUserAnnonce() {
         return idFavorisUserAnnonce;

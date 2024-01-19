@@ -8,4 +8,7 @@ import java.util.List;
 
 public interface VFavorisUserAnnonceRepository extends JpaRepository<VFavorisUserAnnonce, String> {
     List<VFavorisUserAnnonce> findByIdUsers(String idUsers);
+
+    List<VFavorisUserAnnonce> findByIdUsersActuel(String idUsersActuel);
+    
 }
