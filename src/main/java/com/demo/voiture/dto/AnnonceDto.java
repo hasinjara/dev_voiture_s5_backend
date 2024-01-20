@@ -30,5 +30,16 @@ public class AnnonceDto {
     private Double prixVente;
 
     private List<String> url_photo;
+
+    public AnnonceDto(String idVoiture, String idFicheTechnique, String idCategorie, Double kilometrage,
+            Double etatVoiture, String description, Double prixVente) {
+        this.idVoiture = idVoiture;
+        this.idFicheTechnique = idFicheTechnique;
+        this.idCategorie = idCategorie;
+        this.kilometrage = kilometrage;
+        this.etatVoiture = etatVoiture;
+        this.description = description;
+        this.prixVente = prixVente;
+    }
     
 }

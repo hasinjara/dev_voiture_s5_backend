@@ -21,7 +21,7 @@ FirebaseMessaging firebaseMessaging() throws IOException {
             .builder()
             .setCredentials(googleCredentials)
             .build();
-    FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions, "my-app");
+    FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions, "gasy-si-s5-cloud");
     return FirebaseMessaging.getInstance(app);
 }
 }

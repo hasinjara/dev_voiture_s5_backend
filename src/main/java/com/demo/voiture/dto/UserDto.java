@@ -15,4 +15,5 @@ public class UserDto {
     String nom;
     String prenom;
     String mail;
+    String role;
 }

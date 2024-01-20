@@ -56,6 +56,7 @@ public class AuthenticationService {
                             .nom(user.getNom())
                             .prenom(user.getPrenom())
                             .mail(user.getMail())
+                            .role(user.getRole().name())
                             .build();
         Object[] response = new Object[2];
         response[0] = user_dto;
@@ -87,6 +88,7 @@ public class AuthenticationService {
                             .nom(user.getNom())
                             .prenom(user.getPrenom())
                             .mail(user.getMail())
+                            .role(user.getRole().name())
                             .build();
         var jwt = jwtService.generateToken(user);
         JwtAuthenticationResponse token = JwtAuthenticationResponse.builder().token(jwt).build();
