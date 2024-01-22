@@ -52,12 +52,13 @@ public class AnnonceController {
                         @RequestParam("idFicheTechnique") String idFicheTechnique,
                         @RequestParam("idCategorie") String idCategorie,
                         @RequestParam("etatVoiture") Double etatVoiture, 
+                        @RequestParam("kilometrage") Double kilometrage,
                         @RequestParam("description") String description,
                         @RequestParam("prixVente") Double prixVente,
                         @RequestParam("photos") MultipartFile[] multipartFile
                         ) {
         
-        AnnonceDto annonceDto = new AnnonceDto(idVoiture, idFicheTechnique, idCategorie, prixVente, etatVoiture, description, prixVente);
+        AnnonceDto annonceDto = new AnnonceDto(idVoiture, idFicheTechnique, idCategorie, kilometrage, etatVoiture, description, prixVente);
         List<String> url_photo = new ArrayList<String>();
         try {
             Annonce control = new Annonce(annonceDto);
