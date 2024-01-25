@@ -55,7 +55,7 @@ public class AnnonceController {
                         @RequestParam("kilometrage") Double kilometrage,
                         @RequestParam("description") String description,
                         @RequestParam("prixVente") Double prixVente,
-                        @RequestParam("photos") MultipartFile[] multipartFile
+                        @RequestPart("photos") MultipartFile[] multipartFile
                         ) {
         
         AnnonceDto annonceDto = new AnnonceDto(idVoiture, idFicheTechnique, idCategorie, kilometrage, etatVoiture, description, prixVente);
