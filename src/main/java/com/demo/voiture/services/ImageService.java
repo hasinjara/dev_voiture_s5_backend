@@ -46,10 +46,10 @@ public class ImageService {
           fos.write(multipartFile.getBytes());
           fos.close();
       }
-      Thumbnails.of(tempFile)
-        .scale(1) 
-        .outputQuality(0.5)
-        .toFile(tempFile);
+    //   Thumbnails.of(tempFile)
+    //     .scale(1) 
+    //     .outputQuality(0.5)
+    //     .toFile(tempFile);
       return tempFile;
   }
 
