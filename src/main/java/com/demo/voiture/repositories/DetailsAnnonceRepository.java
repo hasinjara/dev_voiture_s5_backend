@@ -19,7 +19,14 @@ public interface DetailsAnnonceRepository extends JpaRepository<DetailsAnnonce, 
     @Query(value = "Select * from v_annonce_vendu",nativeQuery = true)
     List<DetailsAnnonce> findVendu();
 
-    List<DetailsAnnonce> findByIdUsers(String idUsers);
+    @Query(value = "Select * from v_annonce_prix_min limit 5",nativeQuery = true)
+    List<DetailsAnnonce> findMin();
+
+    @Query(value = "Select * from v_annonce_vendu",nativeQuery = true)
+    List<DetailsAnnonce> findVendu(String idUser);
+
+    @Query(value = "Select * from v_annonce_vendu where id_users = :id",nativeQuery = true)
+    List<DetailsAnnonce> findByIdUsers(@Param("id")  String idUsers);
 
     @Query(value = "SELECT * FROM v_annonce_valide " +
         "WHERE " +

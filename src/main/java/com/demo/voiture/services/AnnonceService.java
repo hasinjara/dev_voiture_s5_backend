@@ -82,11 +82,53 @@ public class AnnonceService {
         }
     }
 
+    public Retour getMin() {
+        try {
+            
+            List<DetailsAnnonce> all = detailsAnnonceRepository.findMin();
+            List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+            List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
+            DetailsAnnonceDto add = new DetailsAnnonceDto();
+            for (DetailsAnnonce annonce : all) {
+                photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                add = new DetailsAnnonceDto(annonce, photos);
+                full_details.add(
+                    add
+                );
+            }
+            return  new Retour(full_details);
+        }
+        catch (Exception e) {
+            return  new Retour(e.getMessage(), "Failed", null);
+        }
+    }
+
 
     public Retour getDetailsAnnonceIdusers() {
         try {
             User u = userService.getByToken();
             List<DetailsAnnonce> all = detailsAnnonceRepository.findByIdUsers(u.getIdUsers());
+            List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+            List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
+            DetailsAnnonceDto add = new DetailsAnnonceDto();
+            for (DetailsAnnonce annonce : all) {
+                photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                add = new DetailsAnnonceDto(annonce, photos);
+                full_details.add(
+                    add
+                );
+            }
+            return  new Retour(full_details);
+        }
+        catch (Exception e) {
+            return  new Retour(e.getMessage(), "Failed", null);
+        }
+    }
+
+    public Retour getVenduUsers() {
+        try {
+            User u = userService.getByToken();
+            List<DetailsAnnonce> all = detailsAnnonceRepository.findVendu(u.getIdUsers());
             List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
             List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
             DetailsAnnonceDto add = new DetailsAnnonceDto();
@@ -471,7 +513,9 @@ public class AnnonceService {
 
     public Retour listVendu() {
         try {
+
             List<DetailsAnnonce> all = detailsAnnonceRepository.findVendu();
+            
             List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
             List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
             DetailsAnnonceDto add = new DetailsAnnonceDto();

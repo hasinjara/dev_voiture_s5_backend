@@ -124,6 +124,11 @@ public class AnnonceController {
         return annonceService.listValide();
     }
 
+    @GetMapping("/min")
+    public Retour min() {
+        return annonceService.getMin();
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/refuser")
     public Retour listrefuse() {
@@ -154,6 +159,13 @@ public class AnnonceController {
         return annonceService.getDetailsAnnonceIdusers();
     }
 
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/users/vendu")
+    public Retour findVenduUsers() {
+        return annonceService.getVenduUsers();
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/test")
     public String test() {
@@ -178,22 +190,22 @@ public class AnnonceController {
         
     }
 
-    @PostMapping("/uploadMultiple")
-    public String handleFileUploadMultiple(
-    @RequestParam("files") MultipartFile[] files) throws IOException {
-        System.out.println("ok 1");
-        //handle uploaded files
-        if(files.length == 0) {
-            return "aucun file";
-        }
-        else {
-            System.out.println("ok 2");
-            FileToBase64StringConversionUnitTest u = new FileToBase64StringConversionUnitTest();
-            u.fileToBase64StringConversion();
-        }
+    // @PostMapping("/uploadMultiple")
+    // public String handleFileUploadMultiple(
+    // @RequestParam("files") MultipartFile[] files) throws IOException {
+    //     System.out.println("ok 1");
+    //     //handle uploaded files
+    //     if(files.length == 0) {
+    //         return "aucun file";
+    //     }
+    //     else {
+    //         System.out.println("ok 2");
+    //         FileToBase64StringConversionUnitTest u = new FileToBase64StringConversionUnitTest();
+    //         u.fileToBase64StringConversion();
+    //     }
   
-        return "Files uploaded successfully!";
-    }
+    //     return "Files uploaded successfully!";
+    // }
     
     
 
