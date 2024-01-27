@@ -16,6 +16,9 @@ public interface DetailsAnnonceRepository extends JpaRepository<DetailsAnnonce, 
     @Query(value = "Select * from v_annonce_refuse",nativeQuery = true)
     List<DetailsAnnonce> findRefuse();
 
+    @Query(value = "Select * from v_annonce_non_valide",nativeQuery = true)
+    List<DetailsAnnonce> findNonValide();
+
     @Query(value = "Select * from v_annonce_vendu",nativeQuery = true)
     List<DetailsAnnonce> findVendu();
 
@@ -25,7 +28,7 @@ public interface DetailsAnnonceRepository extends JpaRepository<DetailsAnnonce, 
     @Query(value = "Select * from v_annonce_vendu",nativeQuery = true)
     List<DetailsAnnonce> findVendu(String idUser);
 
-    @Query(value = "Select * from v_annonce_vendu where id_users = :id",nativeQuery = true)
+    @Query(value = "Select * from v_annonce_valide where id_users = :id",nativeQuery = true)
     List<DetailsAnnonce> findByIdUsers(@Param("id")  String idUsers);
 
     @Query(value = "SELECT * FROM v_annonce_valide " +

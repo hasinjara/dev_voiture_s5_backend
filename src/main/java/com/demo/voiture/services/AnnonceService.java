@@ -490,6 +490,26 @@ public class AnnonceService {
         }
     }
 
+    public Retour listNonValide() {
+        try {
+            List<DetailsAnnonce> all = detailsAnnonceRepository.findNonValide();
+            List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+            List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
+            DetailsAnnonceDto add = new DetailsAnnonceDto();
+            for (DetailsAnnonce annonce : all) {
+                photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                add = new DetailsAnnonceDto(annonce, photos);
+                full_details.add(
+                    add
+                );
+            }
+            return new Retour(full_details);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new Retour(e.getMessage(), null);
+        }
+    }
+
 
     public Retour listRefuse() {
         try {

@@ -31,6 +31,8 @@ public class AnnonceDto {
 
     private List<String> url_photo;
 
+    private List<String> base64_photos;
+
     public AnnonceDto(String idVoiture, String idFicheTechnique, String idCategorie, Double kilometrage,
             Double etatVoiture, String description, Double prixVente) {
         this.idVoiture = idVoiture;

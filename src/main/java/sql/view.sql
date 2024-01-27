@@ -64,6 +64,9 @@ create or replace view v_details_annonce as
         join users on annonce.id_users = users.id_users
         order by date_annonce DESC;
 
+create or replace view v_annonce_non_valide as
+    select * from v_details_annonce where etat = 0;
+
 create or replace view v_annonce_refuse as
     select * from v_details_annonce where etat = 10;
 

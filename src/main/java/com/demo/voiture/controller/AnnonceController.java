@@ -141,6 +141,12 @@ public class AnnonceController {
         return annonceService.listVendu();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/non_valide")
+    public Retour listNonValide() {
+        return annonceService.listNonValide();
+    }
+
     @GetMapping("/search/{motcle}")
     public Retour seacrh(@PathVariable String motcle) {
         return annonceService.listMotCle(motcle);
