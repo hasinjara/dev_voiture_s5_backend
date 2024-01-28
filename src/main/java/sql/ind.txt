@@ -12,6 +12,133 @@ to do
 4- is favoris **
 5- notification push 
 
+to do
+1 - collection postman
+2 - fix warning
+3 - deploy
+4 - param_commission crud
+5 - commission back-end ws
+5 - commission integration react crud
+
+list - url - client
+-- sign in / sign up
+/register/signin
+{
+    "mail":"user1@gmail.com",
+    "mdp":"user1"
+}
+
+/register/signup
+{
+    "nom" : "test",
+    "prenom" : "test",
+    "mail" : "test",
+    "mdp" : "test"
+}
+
+-- annonce 
+GET 
+/annonce/valider
+/annonce/{id}
+/annonce/min
+/annonce/seacrh/{motcle}
+/annonce/seacrh
+{
+  "kilometrage": {
+    "min": 16000,
+    "max": 30000
+  },
+  "prixVente" : {
+      "min":4000000,
+      "max":6000000
+  },
+  "consommation" : {
+      "min":5,
+      "max":10
+  },
+  "idVoiture":"V1",
+  "idCategorie":"CATEG9",
+  "idEnergie":"EN2",
+  "idMarque":"MA1",
+  "idBoite":"B1"
+}  
+/annonce/users
+/annonce/users/vendu
+POST
+/annonce
+PUT
+/annonce/{idAnnonce}
+{
+    "idVoiture":"V1",
+    "idFicheTechnique":"FT2",
+    "idCategorie":"CATEG1",
+    "kilometrage":1000,
+    "etatVoiture":8.5,
+    "description":"hhu",
+    "prixVente":700000
+}
+
+--favoris
+GET
+/favoris_user_annonce
+POST
+/favoris_user_annonce
+{
+    "idAnnonce":"AN1",
+    "idUsers":"U2"
+}
+DELETE
+/favoris_user_annonce/{id}
+/favoris_user_annonce
+{
+    "idAnnonce":"AN1",
+    "idUsers":"U2"
+}
+
+--message
+GET
+/message/conversation/users
+message/users
+{
+    "conversationId":"65a54d0e2c43dc023cd0b83a",
+    "sender":"U2"
+}
+POST
+/message/conversation
+{
+    "idUsers":"U3"
+}
+/message/envoyer
+{
+    "conversationId":"65a54d0e2c43dc023cd0b83a",
+    "sender":"U2",
+    "content":"hey"
+}
+
+-- marque
+/marque
+/marque/{id}
+-- boite
+/boite
+/boite/{id}
+
+-- categorie
+/categorie
+/categorie/{id}
+
+-- fiche_tech
+/voiture_fichetechnique
+/voiture_fichetechnique/{id}
+/voiture/fiche_tech
+
+-- voiture
+/voiture
+
+
+9rt7rmh2mtgtMAC
+
+
+devvoitures5backend-production.up.railway.app
 
 
 
