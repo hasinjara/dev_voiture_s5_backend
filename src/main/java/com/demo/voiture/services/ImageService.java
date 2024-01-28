@@ -1,5 +1,6 @@
 package com.demo.voiture.services;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,7 +9,16 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.UUID;
+
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import javax.imageio.*;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,16 +50,47 @@ public class ImageService {
       return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
   }
 
+//   public void compress(File file) throws IOException {
+//         try {
+//             BufferedImage inputImage = ImageIO.read(file);
+
+//             Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpg");
+//             ImageWriter writer = writers.next();
+
+//             ImageOutputStream outputStream = ImageIO.createImageOutputStream(file);
+//             writer.setOutput(outputStream);
+
+//             ImageWriteParam params = writer.getDefaultWriteParam();
+//             params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+//             params.setCompressionQuality(0.5f);
+
+//             writer.write(null, new IIOImage(inputImage, null, null), params);
+
+//             outputStream.close();
+//             writer.dispose();
+//         } catch (Exception e) {
+//             // TODO: handle exception
+//             throw e;
+//         }       
+        
+//   }
+
   private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
       File tempFile = new File(fileName);
       try (FileOutputStream fos = new FileOutputStream(tempFile)) {
           fos.write(multipartFile.getBytes());
           fos.close();
       }
-      Thumbnails.of(tempFile)
+      try {
+        Thumbnails.of(tempFile)
         .scale(1) 
         .outputQuality(0.5)
         .toFile(tempFile);
+      } catch (Exception e) {
+        // TODO: handle exception
+        System.out.println("Non compresse");
+      }
+
       return tempFile;
   }
 
