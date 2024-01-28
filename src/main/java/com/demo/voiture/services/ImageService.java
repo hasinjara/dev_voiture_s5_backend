@@ -81,15 +81,15 @@ public class ImageService {
           fos.write(multipartFile.getBytes());
           fos.close();
       }
-      try {
-        Thumbnails.of(tempFile)
-        .scale(1) 
-        .outputQuality(0.5)
-        .toFile(tempFile);
-      } catch (Exception e) {
-        // TODO: handle exception
-        System.out.println("Non compresse");
-      }
+    //   try {
+    //     Thumbnails.of(tempFile)
+    //     .scale(1) 
+    //     .outputQuality(0.5)
+    //     .toFile(tempFile);
+    //   } catch (Exception e) {
+    //     // TODO: handle exception
+    //     System.out.println("Non compresse");
+    //   }
 
       return tempFile;
   }
