@@ -115,6 +115,17 @@ public class VFavorisUserAnnonce {
     @Column(name = "id_users_actuel", nullable = true, length = -1)
     @Basic
     private String idUsersActuel;
+    @Basic
+    @Column(name = "total_reaction", nullable = true, precision = 0)
+    private Integer totalReaction;
+
+    public Integer getTotalReaction() {
+        return totalReaction;
+    }
+
+    public void setTotalReaction(Integer totalReaction) {
+        this.totalReaction = totalReaction;
+    }
 
     public String getIdFavorisUserAnnonce() {
         return idFavorisUserAnnonce;

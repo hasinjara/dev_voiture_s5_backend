@@ -20,6 +20,9 @@ to do
 5 - commission back-end ws
 5 - commission integration react crud
 
+
+mdp supabase : UqHh31JvVC9iLmjb
+
 list - url - client
 -- sign in / sign up
 /register/signin

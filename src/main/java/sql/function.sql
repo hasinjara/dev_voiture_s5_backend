@@ -154,3 +154,18 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- select * from stat_revenu_anne(2024);
+
+CREATE OR REPLACE FUNCTION get_total_reaction(id_an varchar)
+RETURNS INTEGER AS $$
+DECLARE
+    total_count INTEGER;
+BEGIN
+    SELECT COALESCE(COUNT(*), 0) INTO total_count
+    FROM favoris_user_annonce
+    WHERE id_annonce = id_an;
+
+    RETURN total_count;
+END;
+$$ LANGUAGE plpgsql;
+
+--select * from get_total_reaction('AN1');

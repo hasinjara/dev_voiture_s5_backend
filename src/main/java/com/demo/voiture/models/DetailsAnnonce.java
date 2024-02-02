@@ -105,7 +105,12 @@ public class DetailsAnnonce {
     @Basic
     @Column(name = "mail", nullable = true, length = -1)
     private String mail;
+    @Basic
+    @Column(name = "total_reaction", nullable = true, precision = 0)
+    private Integer totalReaction;
 
+    
+    
     public String getIdAnnonce() {
         return idAnnonce;
     }
@@ -373,5 +378,13 @@ public class DetailsAnnonce {
     @Override
     public int hashCode() {
         return Objects.hash(idAnnonce, idUsers, idVoiture, idFicheTechnique, idCategorie, kilometrage, etatVoiture, description, prixVente, dateAnnonce, etat, nomModele, anneSortie, idMarque, marque, categorie, idEnergie, energie, idBoite, boite, moteur, litreMoteur, consommation, puissance, nbVitesse, nbPlace, nbPorte, longueur, poids, nom, prenom, mail);
+    }
+
+    public Integer getTotalReaction() {
+        return totalReaction;
+    }
+
+    public void setTotalReaction(Integer totalReaction) {
+        this.totalReaction = totalReaction;
     }
 }
