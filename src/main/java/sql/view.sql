@@ -10,7 +10,8 @@ create or replace view v_voiture_categorie as
     select 
         voiture.*,
         voiture_categorie.id_categorie,
-        categorie.categorie
+        categorie.categorie,
+        voiture_categorie.id_voiture_categorie
         from
             voiture
             join voiture_categorie on voiture.id_voiture = voiture_categorie.id_voiture
