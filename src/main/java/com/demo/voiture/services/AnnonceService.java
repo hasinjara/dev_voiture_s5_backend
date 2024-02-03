@@ -82,6 +82,27 @@ public class AnnonceService {
         }
     }
 
+    public Retour historique() {
+        try {
+            User u = userService.getByToken();
+            List<DetailsAnnonce> all = detailsAnnonceRepository.findHistorique(u.getIdUsers());
+            List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+            List<DetailsAnnonceDto> full_details = new ArrayList<DetailsAnnonceDto>();
+            DetailsAnnonceDto add = new DetailsAnnonceDto();
+            for (DetailsAnnonce annonce : all) {
+                photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                add = new DetailsAnnonceDto(annonce, photos);
+                full_details.add(
+                    add
+                );
+            }
+            return  new Retour(full_details);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return  new Retour(e.getMessage(), "Failed", null);
+        }
+    }
+
     public Retour getMin() {
         try {
             

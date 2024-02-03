@@ -31,6 +31,9 @@ public interface DetailsAnnonceRepository extends JpaRepository<DetailsAnnonce, 
     @Query(value = "Select * from v_annonce_valide where id_users = :id",nativeQuery = true)
     List<DetailsAnnonce> findByIdUsers(@Param("id")  String idUsers);
 
+    @Query(value = "Select * from v_details_annonce where id_users = :id",nativeQuery = true)
+    List<DetailsAnnonce> findHistorique(@Param("id")  String idUsers);
+
     @Query(value = "SELECT * FROM v_annonce_valide " +
         "WHERE " +
         "CAST(kilometrage AS TEXT) ILIKE CONCAT('%', :m, '%') " +

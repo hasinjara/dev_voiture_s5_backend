@@ -172,6 +172,12 @@ public class AnnonceController {
         return annonceService.getVenduUsers();
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/users/historique")
+    public Retour findhistorique() {
+        return annonceService.historique();
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/test")
     public String test() {
