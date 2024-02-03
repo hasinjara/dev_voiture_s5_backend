@@ -50,7 +50,20 @@ public class FavorisUserAnnonceService {
                 return new Retour(full_details);
             } else {
                 List<VFavorisUserAnnonce> all = vFavorisUserAnnonceRepository.findByIdUsersActuel(idUsers);
-                return new Retour(all);
+                List<AnnoncePhoto> photos = new ArrayList<AnnoncePhoto>();
+                List<DetailsFavorisDto> full_details = new ArrayList<DetailsFavorisDto>();
+                DetailsFavorisDto add = new DetailsFavorisDto();
+                for (VFavorisUserAnnonce annonce : all) {
+                    photos = annnoncePhotoRepository.findByIdAnnonce( annonce.getIdAnnonce() );
+                    add = new DetailsFavorisDto(annonce, photos);
+                    full_details.add(
+                        add
+                    );
+                }
+
+                //List<VFavorisUserAnnonce> all = vFavorisUserAnnonceRepository.findAll();
+                return new Retour(full_details);
+                
             }
         } catch (Exception e) {
             return new Retour(e.getMessage(), "Failed", null);
