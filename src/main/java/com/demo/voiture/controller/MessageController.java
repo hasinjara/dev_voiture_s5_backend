@@ -64,5 +64,12 @@ public class MessageController {
     public Retour user_message(@RequestBody MessageUserDto messageDto) {
         return messageService.messages(messageDto);
     }
+
+    @GetMapping("/users/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Retour user_message_path(@PathVariable String id) {
+        MessageUserDto messageDto = new MessageUserDto(id);
+        return messageService.messages(messageDto);
+    }
     
 }
