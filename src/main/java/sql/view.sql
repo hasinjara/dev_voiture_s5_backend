@@ -92,7 +92,8 @@ create or replace view v_annonce_prix_min as
     v_details_fiche_techniques.nb_vitesse, v_details_fiche_techniques.nb_place,
     v_details_fiche_techniques.nb_porte, v_details_fiche_techniques.longueur,
     v_details_fiche_techniques.poids,
-    users.nom, users.prenom, users.mail
+    users.nom, users.prenom, users.mail,
+    get_total_reaction(annonce.id_annonce) as total_reaction
     from
         annonce
         join v_voiture_marque on annonce.id_voiture = v_voiture_marque.id_voiture

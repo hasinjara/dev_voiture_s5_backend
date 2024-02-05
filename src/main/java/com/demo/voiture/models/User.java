@@ -39,6 +39,18 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     Role role;
 
+    @Column(name="firebase_token", nullable = true, length = -1)
+    private String firebaseToken;
+
+
+    public String getFirebaseToken() {
+        return firebaseToken;
+    }
+
+    public void setFireBaseToken(String firebaseToken) {
+        this.firebaseToken = firebaseToken;
+    }
+
     public String getIdUsers() {
         return idUsers;
     }

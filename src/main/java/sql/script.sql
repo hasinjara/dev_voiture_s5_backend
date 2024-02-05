@@ -9,6 +9,8 @@ create table users (
    date_inscription date default now()::date,
    primary key (id_users)
 );
+alter table users 
+add column firebase_token text;
 
 
 create sequence seq_categorie increment by 1 minvalue 1;

@@ -14,4 +14,5 @@ public class SignUpRequest {
     String prenom;
     String mail;
     String mdp;
+    String firebase_token;
 }

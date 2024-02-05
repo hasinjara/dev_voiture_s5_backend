@@ -39,6 +39,7 @@ public class AuthenticationService {
                 .mdp(passwordEncoder.encode(request.getMdp()))
                 //.mdp(request.getMdp())
                 .role(Role.ROLE_USER)
+                .firebaseToken(request.getFirebase_token())
                 .build();
 
         User control = userRepository.findByMail(request.getMail())
