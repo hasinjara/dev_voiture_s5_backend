@@ -1,7 +1,9 @@
 package com.demo.voiture.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -137,6 +139,14 @@ public class MessageService {
             Message send = messageRepository.save(m);
             NotificationMessage notificationMessage = new NotificationMessage();
             if(u.getFirebaseToken() != null) {
+                Map<String, String> data = new HashMap<>();
+
+                // Ajout de données
+                data.put("sender", u.getNom());
+                data.put("content", send.getContent()  );
+                data.put("date", send.getTimeCreated().toString());
+
+                
                 String userDateSend = u.getNom() + " " + u.getPrenom() + " " + send.getTimeCreated();
                 notificationMessage.setRecipientToken(u.getFirebaseToken());
                 notificationMessage.setTitle(userDateSend);
