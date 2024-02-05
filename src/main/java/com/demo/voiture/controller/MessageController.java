@@ -53,6 +53,12 @@ public class MessageController {
         return messageService.create_conversation(conversationDto);
     }
 
+    @GetMapping("/conversation/users/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Retour createConversation(@PathVariable String id) {
+        return messageService.getConversation(id);
+    }
+
     @PostMapping("/envoyer")
     @PreAuthorize("hasRole('ROLE_USER')")
     public Retour envoyer(@RequestBody MessageDto messageDto) {

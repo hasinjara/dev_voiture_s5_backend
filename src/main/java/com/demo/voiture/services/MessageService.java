@@ -13,9 +13,11 @@ import com.demo.voiture.models.Retour;
 import com.demo.voiture.models.User;
 import com.demo.voiture.models.message.Conversation;
 import com.demo.voiture.models.message.Message;
+import com.demo.voiture.models.message.NotificationMessage;
 import com.demo.voiture.repositories.ConversationRepository;
 import com.demo.voiture.repositories.MessageRepository;
 import com.demo.voiture.repositories.UserRepository;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +29,7 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final FirebaseMessagingService firebaseMessagingService;
 
     public Retour all_conversation(String participans) {
         try {
@@ -131,8 +134,44 @@ public class MessageService {
             User u = userService.getByToken();
             verifyIdUsers(u.getIdUsers(), messageDto.getConversationId());
             Message m = new Message(u.getIdUsers(), messageDto.getContent(), messageDto.getConversationId());
-            return new Retour(messageRepository.save(m));
+            Message send = messageRepository.save(m);
+            NotificationMessage notificationMessage = new NotificationMessage();
+            if(u.getFirebaseToken() != null) {
+                String userDateSend = u.getNom() + " " + u.getPrenom() + " " + send.getTimeCreated();
+                notificationMessage.setRecipientToken(u.getFirebaseToken());
+                notificationMessage.setTitle(userDateSend);
+                notificationMessage.setBody(send.getContent());
+                notificationMessage.setImage("");
+                notificationMessage.setData(null);
+                firebaseMessagingService.sendNotification(notificationMessage);
+            }
+            return new Retour(send);
         } catch (Exception e) {
+            return new Retour(e.getMessage(), "Failed", null);
+        }
+    }
+
+    public Retour getConversation(String id) {
+        try {
+            String id1 = id;
+            User u = userService.getByToken();
+            String id2 = u.getIdUsers();
+            List<String> cmb1 = new ArrayList<String>();
+            List<String> cmb2 = new ArrayList<String>();
+
+            cmb1.add(id2);
+            cmb1.add(id1);
+
+            cmb2.add(id1);
+            cmb2.add(id2);
+            Conversation c1 = conversationRepository.findByIdParticipants(cmb2);
+            Conversation c2 = conversationRepository.findByIdParticipants(cmb1);
+            if(c1 != null) {
+                return new Retour(c1) ;
+            }
+            return new Retour(c2);
+        } catch (Exception e) {
+            // TODO: handle exception
             return new Retour(e.getMessage(), "Failed", null);
         }
     }
