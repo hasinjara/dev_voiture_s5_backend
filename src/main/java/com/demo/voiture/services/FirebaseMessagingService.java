@@ -48,6 +48,7 @@ public class FirebaseMessagingService {
             return firebaseMessaging.send(message);
         } catch (FirebaseMessagingException e) {
             // TODO: handle exception
+            e.printStackTrace();
             throw e;
         }
 

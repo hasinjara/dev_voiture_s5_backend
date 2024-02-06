@@ -152,7 +152,7 @@ public class MessageService {
                 notificationMessage.setTitle(userDateSend);
                 notificationMessage.setBody(send.getContent());
                 notificationMessage.setImage("");
-                notificationMessage.setData(null);
+                notificationMessage.setData(data);
                 firebaseMessagingService.sendNotification(notificationMessage);
             }
             return new Retour(send);

@@ -28,7 +28,7 @@ public class NotificationController {
         } catch (FirebaseMessagingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "erero";
+            return e.getMessage() + " "+e.getCause();
         }
     }
     
