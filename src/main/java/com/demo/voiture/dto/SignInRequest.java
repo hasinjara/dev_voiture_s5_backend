@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class SignInRequest {
     String mail;
     String mdp;
+    String firebase_token;
 }

@@ -8,6 +8,8 @@ import com.demo.voiture.models.Retour;
 import com.demo.voiture.models.Role;
 import com.demo.voiture.models.User;
 import com.demo.voiture.repositories.UserRepository;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -67,6 +69,7 @@ public class AuthenticationService {
     }
 
 
+    @Transactional
     public Retour signin(SignInRequest request) {
         try {
                 authenticationManager.authenticate(
@@ -83,6 +86,12 @@ public class AuthenticationService {
         if(user == null) {
             //System.out.println("--===============================");
             return error_sigin();
+        }
+        if(request.getFirebase_token() != null) {
+            System.out.println(request.getFirebase_token() + "   "+ user.getIdUsers());
+            user.setFireBaseToken(request.getFirebase_token());
+            //userRepository.updateFirebaseToken(request.getFirebase_token(), user.getIdUsers());
+            userRepository.save(user);
         }
         UserDto user_dto =  UserDto.builder()
                             .idUser(user.getIdUsers())
