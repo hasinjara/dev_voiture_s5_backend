@@ -139,7 +139,10 @@ public class MessageService {
             Message m = new Message(u.getIdUsers(), messageDto.getContent(), messageDto.getConversationId());
             Message send = messageRepository.save(m);
             NotificationMessage notificationMessage = new NotificationMessage();
-            if(u.getFirebaseToken() != null) {
+
+            User recipient = userRepository.findById(messageDto.getRecipient()).get();
+
+            if(recipient.getFirebaseToken() != null) {
                 Map<String, String> data = new HashMap<>();
 
                 // Ajout de données
@@ -149,7 +152,7 @@ public class MessageService {
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                 String dateString=sdf.format(send.getTimeCreated());
                 String userDateSend = u.getNom() + " " + u.getPrenom() + " " + dateString;
-                notificationMessage.setRecipientToken(u.getFirebaseToken());
+                notificationMessage.setRecipientToken(recipient.getFirebaseToken());
                 notificationMessage.setTitle(userDateSend);
                 notificationMessage.setBody(send.getContent());
                 notificationMessage.setImage("");
