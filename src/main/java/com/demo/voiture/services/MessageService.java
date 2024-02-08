@@ -1,5 +1,6 @@
 package com.demo.voiture.services;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -145,9 +146,9 @@ public class MessageService {
                 data.put("sender", u.getNom());
                 data.put("content", send.getContent()  );
                 data.put("date", send.getTimeCreated().toString());
-
-                
-                String userDateSend = u.getNom() + " " + u.getPrenom() + " " + send.getTimeCreated();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                String dateString=sdf.format(send.getTimeCreated());
+                String userDateSend = u.getNom() + " " + u.getPrenom() + " " + dateString;
                 notificationMessage.setRecipientToken(u.getFirebaseToken());
                 notificationMessage.setTitle(userDateSend);
                 notificationMessage.setBody(send.getContent());
