@@ -152,7 +152,7 @@ public class AnnonceController {
         return annonceService.listMotCle(motcle);
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public Retour seacrh(@RequestBody SearchAnnonceDto searchAnnonceDto) {
         //System.out.println(searchAnnonceDto.getKilometrage());
         return annonceService.listMotCle(searchAnnonceDto);
