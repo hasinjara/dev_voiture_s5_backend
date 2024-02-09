@@ -235,8 +235,8 @@ insert into voiture_categorie (id_voiture, id_categorie) values
 
 -- Fiches techniques pour Sprinter (exemples)
 insert into fiche_technique (id_voiture, id_energie, id_boite, moteur, litre_moteur, consommation, puissance, nb_vitesse, nb_place, nb_porte, longueur, poids) values
-('V16', 'EN1', 'B1', '306 CDI', 2.1, 8.0, 10, 6, 9, 4, 5.30, 2000),
-('V16', 'EN1', 'B2', '312 D', 2.9, 7.5, 12, 5, 6, 3, 5.50, 2200);
+('V16', 'EN1', 'B1', '306 CDI', 2.1, 8.0, 10, 5, 18, 4, 5.30, 2000),
+('V16', 'EN1', 'B2', '312 D', 2.9, 7.5, 12, 5, 18, 4, 5.50, 2200);
 
 -- Catégories pour Classe A (exemple avec "Compacte" et "Citadine")
 insert into voiture_categorie (id_voiture, id_categorie) values
